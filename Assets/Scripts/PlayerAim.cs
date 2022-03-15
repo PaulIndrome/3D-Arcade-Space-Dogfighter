@@ -12,56 +12,47 @@ public class PlayerAim : MonoBehaviour
     MainControls mainControls;
     Vector3 newEulers;
 
-    [ReadOnly, SerializeField] private Vector2 turnInputRaw;
 
     [Header("Settings")]
+    [SerializeField] private float resetOrientationSpeed, resetOrientationThresholdZ;
     [SerializeField] private Vector2 turnSpeed;
 
     [Header("Scene references")]
     [SerializeField] private Transform reticlePos;
 
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
+    [Header("Internals")]
+    [ReadOnly, SerializeField] private bool resettingOrientation = false;
+    [ReadOnly, SerializeField] private float currentResetOrientationVelocity;
+    [ReadOnly, SerializeField] private Vector2 turnInputRaw;
+    [ReadOnly, SerializeField] private Vector3 resettingEulers;
+
+
     void Awake()
     {
         mainControls = new MainControls();
-        newEulers = transform.localEulerAngles;
     }
 
-    /// <summary>
-    /// This function is called when the object becomes enabled and active.
-    /// </summary>
     void OnEnable()
     {
         mainControls.FreeFlight.Turn.performed += TurnInput;
         mainControls.FreeFlight.Turn.canceled += TurnInputCanceled;
+        mainControls.FreeFlight.ResetOrientation.performed += ResetOrientationPerformed;
         mainControls.Enable();
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
     private void Update()
     {
         transform.Rotate(turnInputRaw.y * turnSpeed.y * Time.deltaTime, turnInputRaw.x * turnSpeed.x * Time.deltaTime, 0f, Space.Self);
+    }
 
-        // transform.RotateAround(transform.localPosition, Vector3.up, turnInputRaw.x * turnSpeed.x * Time.deltaTime);
-        // transform.RotateAround(transform.localPosition, Vector3.right, turnInputRaw.y * turnSpeed.y * Time.deltaTime);
-        // newEulers = transform.eulerAngles;
-        // newEulers.z = 0f;
-        // transform.eulerAngles = newEulers;
-        
-        // newEulers = transform.localEulerAngles;
-        // newEulers.x += turnInputRaw.y * turnSpeed.y * Time.deltaTime;
-        // newEulers.y += turnInputRaw.x * turnSpeed.x * Time.deltaTime;
-        // newEulers.z = 0f;
-        // transform.localEulerAngles = newEulers;
+    private void LateUpdate(){
+        if(resettingOrientation){
+            resettingEulers = transform.eulerAngles;
+            resettingEulers.z = Mathf.SmoothDampAngle(resettingEulers.z, 0f, ref currentResetOrientationVelocity, resetOrientationSpeed * Time.deltaTime);
+            transform.eulerAngles = resettingEulers;
 
-        // transform.rotation = Quaternion.Euler(transform.eulerAngles.x + turnInputRaw.y * turnSpeed.y * Time.deltaTime, transform.eulerAngles.y + turnInputRaw.x * turnSpeed.x * Time.deltaTime, 0f);
-
-        
-        
+            resettingOrientation = !(transform.eulerAngles.z < resetOrientationThresholdZ);
+        }
     }
 
     private void TurnInput(InputAction.CallbackContext context){
@@ -72,13 +63,16 @@ public class PlayerAim : MonoBehaviour
         turnInputRaw = Vector2.zero;
     }
 
-    /// <summary>
-    /// This function is called when the behaviour becomes disabled or inactive.
-    /// </summary>
+    void ResetOrientationPerformed(InputAction.CallbackContext context){
+        if(resettingOrientation) return;
+        resettingOrientation = true;
+    }
+
     void OnDisable()
     {
         mainControls.Disable();
         mainControls.FreeFlight.Turn.performed -= TurnInput;
         mainControls.FreeFlight.Turn.canceled -= TurnInputCanceled;
+        mainControls.FreeFlight.ResetOrientation.performed -= ResetOrientationPerformed;
     }
 }
