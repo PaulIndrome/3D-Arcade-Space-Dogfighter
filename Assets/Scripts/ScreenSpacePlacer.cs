@@ -21,6 +21,7 @@ public class ScreenSpacePlacer : MonoBehaviour
     [SerializeField] private RectTransform drawPlane;
 
     [Header("Settings")]
+    [SerializeField, Tooltip("A lerpspeed of <= 0 will be interpreted as instant lerping")] private float lerpSpeed;
     [SerializeField] private OffScreenBehaviour offScreenBehaviour = OffScreenBehaviour.PlaneEdge;
 
     [Header("Internals")]
@@ -60,7 +61,7 @@ public class ScreenSpacePlacer : MonoBehaviour
 
         ExecuteOffScreenBehaviour();
 
-        rect.anchoredPosition = screenPos;
+        rect.anchoredPosition = lerpSpeed > 0f ? Vector2.Lerp(rect.anchoredPosition, screenPos, lerpSpeed * Time.deltaTime) : screenPos;
     }
 
     void ExecuteOffScreenBehaviour(){

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
+using Cinemachine;
 
 public class PlayerAim : MonoBehaviour
 {
@@ -14,22 +15,29 @@ public class PlayerAim : MonoBehaviour
 
 
     [Header("Settings")]
-    [SerializeField] private float resetOrientationSpeed, resetOrientationThresholdZ;
-    [SerializeField] private Vector2 turnSpeed;
+    [SerializeField] private float resetOrientationSpeed;
+    [SerializeField] private float resetOrientationThresholdZ;
+    [SerializeField] private float turnCamInputThreshold;
+    [SerializeField] private Vector2 turnSpeedFreeFlight;
+    [SerializeField] private Vector2 turnSpeedDrift;
 
     [Header("Scene references")]
     [SerializeField] private Transform reticlePos;
+    [SerializeField] private CinemachineVirtualCamera vcam_freeFlightTurn;
 
     [Header("Internals")]
     [ReadOnly, SerializeField] private bool resettingOrientation = false;
     [ReadOnly, SerializeField] private float currentResetOrientationVelocity;
-    [ReadOnly, SerializeField] private Vector2 turnInputRaw;
+    [ReadOnly, SerializeField] private Vector2 currentTurnSpeed;
+    [SerializeField] private Vector2 turnInputRaw;
     [ReadOnly, SerializeField] private Vector3 resettingEulers;
 
 
     void Awake()
     {
         mainControls = new MainControls();
+
+        currentTurnSpeed = turnSpeedFreeFlight;
     }
 
     void OnEnable()
@@ -38,11 +46,14 @@ public class PlayerAim : MonoBehaviour
         mainControls.FreeFlight.Turn.canceled += TurnInputCanceled;
         mainControls.FreeFlight.ResetOrientation.performed += ResetOrientationPerformed;
         mainControls.Enable();
+
+        SpaceShipInput.OnShipStateEntered += OnShipStateEntered;
+        SpaceShipInput.OnShipStateExited += OnShipStateExited;
     }
 
     private void Update()
     {
-        transform.Rotate(turnInputRaw.y * turnSpeed.y * Time.deltaTime, turnInputRaw.x * turnSpeed.x * Time.deltaTime, 0f, Space.Self);
+        transform.Rotate(turnInputRaw.y * currentTurnSpeed.y * Time.deltaTime, turnInputRaw.x * currentTurnSpeed.x * Time.deltaTime, 0f, Space.Self);
     }
 
     private void LateUpdate(){
@@ -57,15 +68,39 @@ public class PlayerAim : MonoBehaviour
 
     private void TurnInput(InputAction.CallbackContext context){
         turnInputRaw = context.ReadValue<Vector2>();
+        if(Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold){
+            vcam_freeFlightTurn.Priority = 11;
+        }
     }
 
     private void TurnInputCanceled(InputAction.CallbackContext context){
         turnInputRaw = Vector2.zero;
+        vcam_freeFlightTurn.Priority = 9;
     }
 
-    void ResetOrientationPerformed(InputAction.CallbackContext context){
+    private void ResetOrientationPerformed(InputAction.CallbackContext context){
         if(resettingOrientation) return;
         resettingOrientation = true;
+    }
+
+    private void OnShipStateEntered(ShipState shipState){
+        switch(shipState){
+            case ShipState.Drift:
+                currentTurnSpeed = turnSpeedDrift;
+                break;
+            case ShipState.FreeFlight:
+                break;
+        }
+    }
+
+    private void OnShipStateExited(ShipState shipState){
+        switch(shipState){
+            case ShipState.Drift:
+                currentTurnSpeed = turnSpeedFreeFlight;
+                break;
+            case ShipState.FreeFlight:
+                break;
+        }
     }
 
     void OnDisable()
@@ -74,5 +109,19 @@ public class PlayerAim : MonoBehaviour
         mainControls.FreeFlight.Turn.performed -= TurnInput;
         mainControls.FreeFlight.Turn.canceled -= TurnInputCanceled;
         mainControls.FreeFlight.ResetOrientation.performed -= ResetOrientationPerformed;
+
+        SpaceShipInput.OnShipStateEntered -= OnShipStateEntered;
+        SpaceShipInput.OnShipStateExited -= OnShipStateExited;
+    }
+
+    /// <summary>
+    /// Callback to draw gizmos that are pickable and always drawn.
+    /// </summary>
+    void OnDrawGizmos()
+    {
+        if(reticlePos){
+            Gizmos.color = Color.red * 0.75f;
+            Gizmos.DrawLine(transform.position, reticlePos.position);
+        }
     }
 }

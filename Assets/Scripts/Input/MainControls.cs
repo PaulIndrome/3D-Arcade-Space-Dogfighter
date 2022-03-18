@@ -49,9 +49,9 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""name"": ""Strafe"",
                     ""type"": ""Value"",
                     ""id"": ""8cd88de1-ef55-41e9-bc0d-a5707f09e8e9"",
-                    ""expectedControlType"": ""Digital"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.68)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -69,7 +69,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""id"": ""9de613cb-095d-460f-920b-61696016b9a5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -88,7 +88,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""id"": ""4712432f-f69b-4652-ba8e-fbabd0950f2b"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""InvertVector2(invertX=false),NormalizeVector2,StickDeadzone"",
+                    ""processors"": ""InvertVector2(invertX=false),StickDeadzone(min=0.15,max=0.99)"",
                     ""groups"": ""Spaceship"",
                     ""action"": ""Turn"",
                     ""isComposite"": false,
@@ -110,7 +110,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""id"": ""fccc49be-beaa-46ea-b83c-9bd7ef061aba"",
                     ""path"": ""<Gamepad>/leftStick/x"",
                     ""interactions"": """",
-                    ""processors"": ""AxisDeadzone(min=0.5),Normalize(min=-1,max=1)"",
+                    ""processors"": """",
                     ""groups"": ""Spaceship"",
                     ""action"": ""Strafe"",
                     ""isComposite"": false,
@@ -143,7 +143,7 @@ public partial class @MainControls : IInputActionCollection2, IDisposable
                     ""id"": ""9f255812-a9f5-48fa-a52a-59ea83a43f43"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
-                    ""processors"": ""AxisDeadzone"",
+                    ""processors"": """",
                     ""groups"": ""Spaceship"",
                     ""action"": ""Boost"",
                     ""isComposite"": false,
