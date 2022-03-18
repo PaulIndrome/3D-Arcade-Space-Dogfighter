@@ -2392,6 +2392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f740f8fecaa9b8f4696df30750269cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forwardForceMultiplier: 10
   maxSpeed: 20
   speedChangeRate: 1
   maxBoostIncrease: 20
