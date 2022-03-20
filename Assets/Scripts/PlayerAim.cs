@@ -10,6 +10,8 @@ public class PlayerAim : MonoBehaviour
 
     public Transform ReticlePos => reticlePos;
 
+    public Vector2 TurnInputRaw => turnInputRaw;
+
     MainControls mainControls;
     Vector3 newEulers;
 
@@ -57,6 +59,12 @@ public class PlayerAim : MonoBehaviour
     }
 
     private void LateUpdate(){
+        if(Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold){
+            vcam_freeFlightTurn.Priority = 11;
+        } else {
+            vcam_freeFlightTurn.Priority = 9;
+        }
+
         if(resettingOrientation){
             resettingEulers = transform.eulerAngles;
             resettingEulers.z = Mathf.SmoothDampAngle(resettingEulers.z, 0f, ref currentResetOrientationVelocity, resetOrientationSpeed * Time.deltaTime);
@@ -68,14 +76,10 @@ public class PlayerAim : MonoBehaviour
 
     private void TurnInput(InputAction.CallbackContext context){
         turnInputRaw = context.ReadValue<Vector2>();
-        if(Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold){
-            vcam_freeFlightTurn.Priority = 11;
-        }
     }
 
     private void TurnInputCanceled(InputAction.CallbackContext context){
         turnInputRaw = Vector2.zero;
-        vcam_freeFlightTurn.Priority = 9;
     }
 
     private void ResetOrientationPerformed(InputAction.CallbackContext context){

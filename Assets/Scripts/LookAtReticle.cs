@@ -10,7 +10,7 @@ public class LookAtReticle : MonoBehaviour
     [SerializeField] private float freeFlightLookAtSpeed;
     [SerializeField] private float driftLookAtSpeed;
     [SerializeField] private float additionalRotationSpeed;
-    [SerializeField] private Vector3 additionalRotationMax;
+    [SerializeField] private AnimationCurve additionalRotationCurveX, additionalRotationCurveY, additionalRotationCurveZ;
 
     [SerializeField, Tooltip("Used for \"corrections\" to the ship visuals position during turns. W-coordinate will be used as lerp factor.")] 
     private Vector4 freeFlightPosition, driftPosition;
@@ -18,6 +18,7 @@ public class LookAtReticle : MonoBehaviour
 
     [Header("Internals")]
     [SerializeField] private float currentLookAtSpeed;
+    [ReadOnly, SerializeField] private Vector3 additionalRotationsLerped;
     [ReadOnly, SerializeField] private Vector3 currentEulers;
     [ReadOnly, SerializeField] private Vector3 newEulers;
     [SerializeField] private Vector4 currentCorrectedPosition;
@@ -25,7 +26,7 @@ public class LookAtReticle : MonoBehaviour
     [ReadOnly, SerializeField] private PlayerAim playerAim;
     [ReadOnly, SerializeField] private Transform reticlePos;
 
-    Vector2 turnInputRaw;
+    [ReadOnly, SerializeField] private Vector2 playerAimTurnInputRaw;
     MainControls mainControls;
 
     /// <summary>
@@ -47,12 +48,20 @@ public class LookAtReticle : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        mainControls.FreeFlight.Turn.performed += TurnInputPerformed;
-        mainControls.FreeFlight.Turn.canceled += TurnInputCanceled;
-        mainControls.Enable();
+        // mainControls.FreeFlight.Turn.performed += TurnInputPerformed;
+        // mainControls.FreeFlight.Turn.canceled += TurnInputCanceled;
+        // mainControls.Enable();
 
         SpaceShipInput.OnShipStateEntered += OnShipStateEntered;
         SpaceShipInput.OnShipStateExited += OnShipStateExited;
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        playerAimTurnInputRaw = playerAim.TurnInputRaw;
     }
 
     /// <summary>
@@ -61,25 +70,30 @@ public class LookAtReticle : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
-        transform.localPosition = Vector3.Lerp(transform.localPosition, currentCorrectedPosition, currentCorrectedPosition.w * Time.deltaTime);
+        // additionalRotationsLerped.x = Mathf.Lerp(additionalRotationRangeX.x, additionalRotationRangeX.y, (playerAimTurnInputRaw.y + 1f) / 2f);
+        // additionalRotationsLerped.y = Mathf.Lerp(additionalRotationRangeY.x, additionalRotationRangeY.y, (playerAimTurnInputRaw.x + 1f) / 2f);
+        // additionalRotationsLerped.z = Mathf.Lerp(additionalRotationRangeZ.x, additionalRotationRangeZ.y, (playerAimTurnInputRaw.x + 1f) / 2f);
 
+        additionalRotationsLerped.x = additionalRotationCurveX.Evaluate(playerAimTurnInputRaw.y);
+        additionalRotationsLerped.y = additionalRotationCurveY.Evaluate(playerAimTurnInputRaw.x);
+        additionalRotationsLerped.z = additionalRotationCurveZ.Evaluate(playerAimTurnInputRaw.x);
 
         additionalRotation = Quaternion.Slerp(additionalRotation, 
-            Quaternion.AngleAxis(-additionalRotationMax.z * turnInputRaw.x, transform.forward) *
-            Quaternion.AngleAxis(additionalRotationMax.x * turnInputRaw.y, transform.right) * 
-            Quaternion.AngleAxis(-additionalRotationMax.y * turnInputRaw.x, transform.up), 
+            Quaternion.AngleAxis(-additionalRotationsLerped.z * playerAimTurnInputRaw.x, transform.forward) *
+            Quaternion.AngleAxis(additionalRotationsLerped.x * playerAimTurnInputRaw.y, transform.right) * 
+            Quaternion.AngleAxis(additionalRotationsLerped.y * playerAimTurnInputRaw.x, transform.up), 
             additionalRotationSpeed * Time.deltaTime);
 
         transform.localRotation = Quaternion.Slerp(transform.localRotation, additionalRotation * playerAim.transform.localRotation, currentLookAtSpeed * Time.deltaTime);
     }
 
-    private void TurnInputPerformed(InputAction.CallbackContext context){
-        turnInputRaw = context.ReadValue<Vector2>();
-    }
+    // private void TurnInputPerformed(InputAction.CallbackContext context){
+    //     turnInputRaw = context.ReadValue<Vector2>();
+    // }
 
-    private void TurnInputCanceled(InputAction.CallbackContext context){
-        turnInputRaw = Vector2.zero;
-    }
+    // private void TurnInputCanceled(InputAction.CallbackContext context){
+    //     turnInputRaw = Vector2.zero;
+    // }
 
     private void OnShipStateEntered(ShipState shipState){
         switch(shipState){
@@ -105,9 +119,9 @@ public class LookAtReticle : MonoBehaviour
 
     void OnDisable()
     {
-        mainControls.Disable();
-        mainControls.FreeFlight.Turn.performed -= TurnInputPerformed;
-        mainControls.FreeFlight.Turn.canceled -= TurnInputCanceled;
+        // mainControls.Disable();
+        // mainControls.FreeFlight.Turn.performed -= TurnInputPerformed;
+        // mainControls.FreeFlight.Turn.canceled -= TurnInputCanceled;
 
         SpaceShipInput.OnShipStateEntered -= OnShipStateEntered;
         SpaceShipInput.OnShipStateExited -= OnShipStateExited;
