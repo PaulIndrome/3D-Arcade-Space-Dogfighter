@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 3898981ae1f9cdb45bc7f28f5b02085f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_WarningIcon: {fileID: 2800000, guid: f1af571e85cdd5f4d869c3c98ead796d, type: 3}
+  - m_CheckmarkIcon: {fileID: 2800000, guid: 29ccc9b9d7e623744999b486b27c5da6, type: 3}
+  - m_QuestionmarkIcon: {fileID: 2800000, guid: 7350bfdf8040a5b43b588f5c6bca4f17, type: 3}
+  - m_UpIcon: {fileID: 2800000, guid: 808a960e7676b334d92ef3de6154419f, type: 3}
+  - m_LeftIcon: {fileID: 2800000, guid: 645abf7898bfcf843843a047db8026a3, type: 3}
+  - m_DownIcon: {fileID: 2800000, guid: 582f66fa3abc97b4fbff3c744e063359, type: 3}
+  - m_RightIcon: {fileID: 2800000, guid: e9ee82fa536b58147a3759d4dd7043d8, type: 3}
+  - m_SquareIcon: {fileID: 2800000, guid: 69b792d20e67c6d4f8cff6d752448b43, type: 3}
+  - m_CircleIcon: {fileID: 2800000, guid: dd3f7b1bc93e20e4b994d9bbbf6e17b4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
