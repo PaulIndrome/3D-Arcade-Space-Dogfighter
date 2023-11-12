@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using UnityEditor.Experimental.SceneManagement;
+
 namespace ExtensionTools.Editor
 {
     [InitializeOnLoad]
@@ -21,7 +21,7 @@ namespace ExtensionTools.Editor
 
             if (obj != null)
             {
-                if (PrefabStageUtility.GetCurrentPrefabStage() == null)
+                if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null)
                 {
                     ColorGroup colorGroup = HierarchyData.GetGroup(obj);
                     Color color = Color.clear;
