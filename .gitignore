@@ -65,5 +65,6 @@ crashlytics-build.properties
 .vscode/
 
 UserSettings/
+dev-impressions
 
 *.psd
