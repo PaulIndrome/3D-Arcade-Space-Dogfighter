@@ -70,4 +70,4 @@ dev-impressions
 *.psd
 
 # SpaceGraphicsToolkit
-[Aa]ssets/Plugins/CW
+[Aa]ssets/Plugins/CW*
