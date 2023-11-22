@@ -68,3 +68,6 @@ UserSettings/
 dev-impressions
 
 *.psd
+
+# SpaceGraphicsToolkit
+[Aa]ssets/Plugins/CW
