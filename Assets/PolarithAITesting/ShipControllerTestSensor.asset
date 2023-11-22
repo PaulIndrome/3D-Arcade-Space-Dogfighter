@@ -1,0 +1,310 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 488664190, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: ShipControllerTestSensor
+  m_EditorClassIdentifier: 
+  SpatialSensor:
+    receptors:
+    - structure:
+        Position: {x: 0, y: 0, z: 3}
+        Direction: {x: 0, y: 0, z: 1}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 0
+      neighbourIDs: 0c0000000e000000100000001200000014000000
+    - structure:
+        Position: {x: 2.6832814, y: 0, z: 1.3416407}
+        Direction: {x: 0.8944272, y: 0, z: 0.4472136}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 1
+      neighbourIDs: 0d0000000c000000150000002000000021000000
+    - structure:
+        Position: {x: 0.82917964, y: 2.55195, z: 1.3416457}
+        Direction: {x: 0.2763932, y: 0.85064995, z: 0.44721523}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 2
+      neighbourIDs: 0e0000000d0000000f0000002800000029000000
+    - structure:
+        Position: {x: 0.82917964, y: -2.55195, z: 1.3416457}
+        Direction: {x: 0.2763932, y: -0.85064995, z: 0.44721523}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 3
+      neighbourIDs: 1400000013000000150000002200000023000000
+    - structure:
+        Position: {x: -2.170827, y: 1.5771794, z: 1.3416467}
+        Direction: {x: -0.723609, y: 0.5257265, z: 0.44721556}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 4
+      neighbourIDs: 100000000f000000110000002600000027000000
+    - structure:
+        Position: {x: -2.170827, y: -1.5771794, z: 1.3416467}
+        Direction: {x: -0.723609, y: -0.5257265, z: 0.44721556}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 5
+      neighbourIDs: 1200000011000000130000002400000025000000
+    - structure:
+        Position: {x: 0, y: 0, z: -3}
+        Direction: {x: 0, y: 0, z: -1}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 6
+      neighbourIDs: 16000000180000001a0000001c0000001e000000
+    - structure:
+        Position: {x: -2.6832814, y: 0, z: -1.3416407}
+        Direction: {x: -0.8944272, y: 0, z: -0.4472136}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 7
+      neighbourIDs: 17000000160000001f0000002500000026000000
+    - structure:
+        Position: {x: -0.82917964, y: 2.55195, z: -1.3416457}
+        Direction: {x: -0.2763932, y: 0.85064995, z: -0.44721523}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 8
+      neighbourIDs: 1800000017000000190000002700000028000000
+    - structure:
+        Position: {x: -0.82917964, y: -2.55195, z: -1.3416457}
+        Direction: {x: -0.2763932, y: -0.85064995, z: -0.44721523}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 9
+      neighbourIDs: 1e0000001d0000001f0000002300000024000000
+    - structure:
+        Position: {x: 2.170827, y: -1.5771794, z: -1.3416467}
+        Direction: {x: 0.723609, y: -0.5257265, z: -0.44721556}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 10
+      neighbourIDs: 1c0000001b0000001d0000002000000022000000
+    - structure:
+        Position: {x: 2.170827, y: 1.5771794, z: -1.3416467}
+        Direction: {x: 0.723609, y: 0.5257265, z: -0.44721556}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 11
+      neighbourIDs: 1a000000190000001b0000002100000029000000
+    - structure:
+        Position: {x: 1.5771933, y: 0, z: 2.5519524}
+        Direction: {x: 0.5257311, y: 0, z: 0.8506508}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 12
+      neighbourIDs: 000000000e000000010000000d0000001400000015000000
+    - structure:
+        Position: {x: 2.0645723, y: 1.4999981, z: 1.5771959}
+        Direction: {x: 0.68819076, y: 0.49999937, z: 0.525732}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 13
+      neighbourIDs: 010000000c000000020000000e0000002900000021000000
+    - structure:
+        Position: {x: 0.48737928, y: 1.4999976, z: 2.551954}
+        Direction: {x: 0.16245976, y: 0.49999923, z: 0.8506513}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 14
+      neighbourIDs: 000000000c000000020000000d000000100000000f000000
+    - structure:
+        Position: {x: -0.78860146, y: 2.4270442, z: 1.5772015}
+        Direction: {x: -0.26286715, y: 0.80901474, z: 0.5257338}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 15
+      neighbourIDs: 020000000e00000004000000100000002700000028000000
+    - structure:
+        Position: {x: -1.2759793, y: 0.92704225, z: 2.5519543}
+        Direction: {x: -0.4253264, y: 0.30901408, z: 0.8506514}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 16
+      neighbourIDs: 000000000e000000040000000f0000001200000011000000
+    - structure:
+        Position: {x: -2.5519514, y: 0, z: 1.5771949}
+        Direction: {x: -0.8506505, y: 0, z: 0.5257316}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 17
+      neighbourIDs: 040000001000000005000000120000002500000026000000
+    - structure:
+        Position: {x: -1.2759793, y: -0.92704225, z: 2.5519543}
+        Direction: {x: -0.4253264, y: -0.30901408, z: 0.8506514}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 18
+      neighbourIDs: 000000001000000005000000110000001400000013000000
+    - structure:
+        Position: {x: -0.78860146, y: -2.4270442, z: 1.5772015}
+        Direction: {x: -0.26286715, y: -0.80901474, z: 0.5257338}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 19
+      neighbourIDs: 050000001200000003000000140000002300000024000000
+    - structure:
+        Position: {x: 0.48737928, y: -1.4999976, z: 2.551954}
+        Direction: {x: 0.16245976, y: -0.49999923, z: 0.8506513}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 20
+      neighbourIDs: 000000001200000003000000130000000c00000015000000
+    - structure:
+        Position: {x: 2.0645723, y: -1.4999981, z: 1.5771959}
+        Direction: {x: 0.68819076, y: -0.49999937, z: 0.525732}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 21
+      neighbourIDs: 0300000014000000010000000c0000002000000022000000
+    - structure:
+        Position: {x: -1.5771933, y: 0, z: -2.5519524}
+        Direction: {x: -0.5257311, y: 0, z: -0.8506508}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 22
+      neighbourIDs: 060000001800000007000000170000001e0000001f000000
+    - structure:
+        Position: {x: -2.0645723, y: 1.4999981, z: -1.5771959}
+        Direction: {x: -0.68819076, y: 0.49999937, z: -0.525732}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 23
+      neighbourIDs: 070000001600000008000000180000002600000027000000
+    - structure:
+        Position: {x: -0.48737928, y: 1.4999976, z: -2.551954}
+        Direction: {x: -0.16245976, y: 0.49999923, z: -0.8506513}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 24
+      neighbourIDs: 060000001600000008000000170000001a00000019000000
+    - structure:
+        Position: {x: 0.78860146, y: 2.4270442, z: -1.5772015}
+        Direction: {x: 0.26286715, y: 0.80901474, z: -0.5257338}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 25
+      neighbourIDs: 08000000180000000b0000001a0000002800000029000000
+    - structure:
+        Position: {x: 1.2759793, y: 0.92704225, z: -2.5519543}
+        Direction: {x: 0.4253264, y: 0.30901408, z: -0.8506514}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 26
+      neighbourIDs: 06000000180000000b000000190000001c0000001b000000
+    - structure:
+        Position: {x: 2.5519514, y: 0, z: -1.5771949}
+        Direction: {x: 0.8506505, y: 0, z: -0.5257316}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 27
+      neighbourIDs: 0b0000001a0000000a0000001c0000002000000021000000
+    - structure:
+        Position: {x: 1.2759793, y: -0.92704225, z: -2.5519543}
+        Direction: {x: 0.4253264, y: -0.30901408, z: -0.8506514}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 28
+      neighbourIDs: 060000001a0000000a0000001b0000001e0000001d000000
+    - structure:
+        Position: {x: 0.78860146, y: -2.4270442, z: -1.5772015}
+        Direction: {x: 0.26286715, y: -0.80901474, z: -0.5257338}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 29
+      neighbourIDs: 0a0000001c000000090000001e0000002200000023000000
+    - structure:
+        Position: {x: -0.48737928, y: -1.4999976, z: -2.551954}
+        Direction: {x: -0.16245976, y: -0.49999923, z: -0.8506513}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 30
+      neighbourIDs: 060000001c000000090000001d000000160000001f000000
+    - structure:
+        Position: {x: -2.0645723, y: -1.4999981, z: -1.5771959}
+        Direction: {x: -0.68819076, y: -0.49999937, z: -0.525732}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 31
+      neighbourIDs: 090000001e00000007000000160000002400000025000000
+    - structure:
+        Position: {x: 2.8531723, y: -0.9270425, z: -0.0000034684372}
+        Direction: {x: 0.95105743, y: -0.30901417, z: -0.0000011561457}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 32
+      neighbourIDs: 01000000210000000a0000001b0000001500000022000000
+    - structure:
+        Position: {x: 2.8531723, y: 0.9270425, z: -0.0000034684372}
+        Direction: {x: 0.95105743, y: 0.30901417, z: -0.0000011561457}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 33
+      neighbourIDs: 01000000200000000b0000001b000000290000000d000000
+    - structure:
+        Position: {x: 1.7633629, y: -2.4270458, z: -0.00000057807415}
+        Direction: {x: 0.5877876, y: -0.8090153, z: -0.00000019269139}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 34
+      neighbourIDs: 03000000150000000a00000020000000230000001d000000
+    - structure:
+        Position: {x: 0, y: -3, z: 0}
+        Direction: {x: 0, y: -1, z: 0}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 35
+      neighbourIDs: 0300000022000000090000001d0000001300000024000000
+    - structure:
+        Position: {x: -1.7633629, y: -2.4270458, z: 0.00000057807415}
+        Direction: {x: -0.5877876, y: -0.8090153, z: 0.00000019269139}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 36
+      neighbourIDs: 05000000130000000900000023000000250000001f000000
+    - structure:
+        Position: {x: -2.8531723, y: -0.9270425, z: 0.0000034684372}
+        Direction: {x: -0.95105743, y: -0.30901417, z: 0.0000011561457}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 37
+      neighbourIDs: 0500000024000000070000001f0000001100000026000000
+    - structure:
+        Position: {x: -2.8531723, y: 0.9270425, z: 0.0000034684372}
+        Direction: {x: -0.95105743, y: 0.30901417, z: 0.0000011561457}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 38
+      neighbourIDs: 070000002500000004000000110000002700000017000000
+    - structure:
+        Position: {x: -1.7633629, y: 2.4270458, z: 0.00000057807415}
+        Direction: {x: -0.5877876, y: 0.8090153, z: 0.00000019269139}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 39
+      neighbourIDs: 040000002600000008000000170000000f00000028000000
+    - structure:
+        Position: {x: 0, y: 3, z: 0}
+        Direction: {x: 0, y: 1, z: 0}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 40
+      neighbourIDs: 0800000027000000020000000f0000002900000019000000
+    - structure:
+        Position: {x: 1.7633629, y: 2.4270458, z: -0.00000057807415}
+        Direction: {x: 0.5877876, y: 0.8090153, z: -0.00000019269139}
+        Magnitude: 1
+        Sensitivity: 90
+      id: 41
+      neighbourIDs: 02000000280000000b000000190000000d00000021000000

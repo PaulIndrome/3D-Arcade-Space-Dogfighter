@@ -9,4 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/ShipControllerTest.unity
     guid: 7069a67e4c7ead6498c469d2112e183e
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 22abce7d0e988f94cb551c1f11589eb3, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 953d55a73f47f6b4ea14e0bf991db620, type: 2}

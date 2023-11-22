@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e861b23844e27704b889973f802b27b4, type: 3}
+  m_Name: BOSS_Armorer_biomassWeapon
+  m_EditorClassIdentifier: 
+  projectilePoolSize: 10
+  projectileBase: {fileID: 6397099895318024980, guid: 4a6a27977a90ca044853ee66dda88cfc, type: 3}
+  generatesHeat: 0
+  defaultSecondsToZeroHeat: 5
+  overheatFiringFrequency:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  weaponDamage:
+    damage: 10
+    shieldModifier: 1
+    armorModifier: 1
+    hullModifier: 1
+  projectileExitVelocity: 30
+  projectileTimeoutDelay: 2.5
+  heatIncreasePerProjectile: 0

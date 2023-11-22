@@ -29,7 +29,7 @@
                     "id": "8cd88de1-ef55-41e9-bc0d-a5707f09e8e9",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "Press(pressPoint=0.68)",
+                    "interactions": "Press(pressPoint=0.8)",
                     "initialStateCheck": true
                 },
                 {
@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "6dda2307-01b8-4f5c-806e-89276e4374e4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -124,6 +133,17 @@
                     "processors": "",
                     "groups": "Spaceship",
                     "action": "Boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "485a7824-99e6-44b0-a31a-a39d0cfd231c",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Spaceship",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

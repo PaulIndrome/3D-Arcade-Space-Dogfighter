@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FlyByParticles
   layers:
   - Default
   - TransparentFX
@@ -13,6 +14,15 @@ TagManager:
   - UI
   - PlayerShip
   - PlayerShipPostProcess
+  - ObstacleGeoPlayer
+  - ObstacleGeoEnemy
+  - UIManagedFOV
+  - UINoFOV
+  - EnvironmentCollision
+  - 
+  - WorldSpaceHUD
+  - ScreenSpaceHUD
+  - TargetLockGeo
   - 
   - 
   - 
@@ -24,20 +34,17 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyShips
+  - TargetingCollision
+  - EnemyMutualPerception
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 2534899631
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BeamWeaponSorting
+    uniqueID: 231255211
     locked: 0

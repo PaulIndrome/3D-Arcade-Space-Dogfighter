@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: camBlend_freeFlight_drift
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: vCam_freeFlight
+  - m_From: vCam_freeFlightMix
     m_To: vCam_driftCam
     m_Blend:
       m_Style: 5
-      m_Time: 0.5
+      m_Time: 0.1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -25,7 +25,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: vCam_driftCam
-    m_To: vCam_freeFlight
+    m_To: vCam_freeFlightMix
     m_Blend:
       m_Style: 5
       m_Time: 0.5

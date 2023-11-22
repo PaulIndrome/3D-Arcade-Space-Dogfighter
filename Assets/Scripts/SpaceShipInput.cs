@@ -4,61 +4,63 @@ using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using Cinemachine;
 
+namespace Soulspace {
 public class SpaceShipInput : MonoBehaviour
 {
 
     public delegate void ShipStateDelegate(ShipState state);
     public static event ShipStateDelegate OnShipStateEntered, OnShipStateExited;
-
     public float CurrentMaxSpeed => currentSpeedFactor * maxSpeed;
 
-    [Header("Settings")]
-    [SerializeField] private float maxSpeed = 25f;
-    [SerializeField] private float speedChangeRate = 2f, speedChangeRateOnBoost;
-    [Space, SerializeField] private float maxBoostIncrease = 25f;
-    [SerializeField] private float boostIncreaseRate, boostDeclineRate, boostDeclineRateOnDrift;
-    [Space, SerializeField] private float velocityDotAimCorrectionThreshold = 0.9f;
-    [SerializeField] private float exitDriftCorrectionSpeed = 2f, exitDriftCorrectionTime = 0.75f;
-    [Space, SerializeField] private float strafeExecuteTime = 1.5f;
-    [SerializeField] private float strafeCooldownTime = 0.75f;
-    [SerializeField] private float strafeSpeed = 2f;
-    [SerializeField, GradientUsage(true)] private Gradient impulseFlareColorGradient;
-    [SerializeField, GradientUsage(true)] private Gradient boostFlareColorGradient;
+    // [Header("Settings")]
+    [Foldout("Settings"), SerializeField] private float maxSpeed;
+    [Foldout("Settings"), SerializeField] private float speedChangeRate, speedChangeRateOnBoost;
+    [Foldout("Settings"), SerializeField, GradientUsage(true)] private Gradient impulseFlareColorGradient;
+    [Foldout("Settings"), Space, SerializeField] private float maxBoostIncrease;
+    [Foldout("Settings"), SerializeField] private float boostIncreaseRate, boostDeclineRate;
+    [Foldout("Settings"), SerializeField, GradientUsage(true)] private Gradient boostFlareColorGradient;
+    [Foldout("Settings"), Space, SerializeField] private float boostDeclineRateOnDrift, exitDriftCorrectionTime;
+    [Foldout("Settings"), Space, SerializeField] private float strafeExecuteTime;
+    [Foldout("Settings"), SerializeField] private float strafeCooldownTime;
+    [Foldout("Settings"), SerializeField] private float strafeSpeed = 2f;
     
 
-    [Header("Scene references")]
-    [SerializeField] private Renderer impulseFlare;
-    [SerializeField] private Renderer boostFlare_R, boostFlare_L;
-    [SerializeField] private Light impulseLight, flareLight_R, flareLight_L;
-    [SerializeField] private CinemachineVirtualCamera vcam_drift;
-    [SerializeField] private ParticleSystem exitDriftThrust_ps;
+    // [Header("Scene references")]
+    [Foldout("Scene references"), SerializeField] private Renderer impulseFlare;
+    [Foldout("Scene references"), SerializeField] private Renderer boostFlare_R, boostFlare_L;
+    [Foldout("Scene references"), SerializeField] private Light impulseLight, flareLight_R, flareLight_L;
+    [Foldout("Scene references"), SerializeField] private CinemachineVirtualCamera vcam_drift;
+    [Foldout("Scene references"), SerializeField] private ParticleSystem exitDriftThrust_ps;
+    [Foldout("Scene references"), SerializeField] private WeaponBase weaponMount_L, weaponMount_R;
 
-    [Header("Internals")]
-    [ReadOnly, SerializeField] private Vector3 forcePerFrame;
-    [ReadOnly, SerializeField] private bool isBoosting = false;
-    [ReadOnly, SerializeField] private bool isDrifting = false, isExitingDrift = false;
-    [ReadOnly, SerializeField] private bool isStrafing = false, isStrafeOnCooldown = false;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float driftEnterSpeedFactor;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float driftEnterSpeed;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float velocityChangeRaw, boostAxisRaw, strafeAxisRaw;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float currentSpeedFactor, currentBoostIncrease;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float currentSpeed;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float velocityDotAim, angleVelocityAim;
-    [Foldout("Internals"), ReadOnly, SerializeField] private float strafeDirection;
-    [Foldout("Internals"), ReadOnly, SerializeField] private Vector3 aggregateVelocity;
-    [Foldout("Internals"), ReadOnly, SerializeField] private Vector3 lerpedCorrectionVelocity;
-    [Foldout("Internals"), ReadOnly, SerializeField] private Vector3 driftVelocity;
-    [Foldout("Internals"), ReadOnly, SerializeField] private PlayerAim playerAim;
-    [Foldout("Internals"), ReadOnly, SerializeField] private Transform reticlePos;
+    public Transform ReticlePos => reticlePos;
 
-    private int emissColorID;
+    // [Header("Internals")]
+    [BoxGroup("State bools"), ReadOnly, SerializeField] private bool isBoosting = false;
+    [BoxGroup("State bools"), ReadOnly, SerializeField] private bool isDrifting = false, isExitingDrift = false;
+    [BoxGroup("State bools"), ReadOnly, SerializeField] private bool isStrafing = false, isStrafeOnCooldown = false;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float driftEnterSpeedFactor;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float driftEnterSpeed;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float velocityChangeRaw, boostAxisRaw, strafeAxisRaw;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float currentSpeedFactor, currentBoostIncrease;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float currentSpeed;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float velocityDotAim;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private float strafeDirection;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Vector3 aggregateVelocity;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Vector3 lerpedCorrectionVelocity;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Vector3 driftEnterVelocity;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private PlayerAim playerAim;
+    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Transform reticlePos;
+
+    private int emissColorID, vcam_driftDefaultPrio;
     private float defaultImpulseLightIntensity, defaultBoostLightIntensity;
     private MaterialPropertyBlock impulseFlareMatBlock, boostFlareMatBlock;
     private Rigidbody rb;
     private Coroutine strafeRoutine, exitDriftRoutine;
     private WaitForSeconds strafeExecuteDelay, strafeCooldownDelay;
-
     MainControls mainControls;
+    Camera mainCam;
+    
 
     void Awake()
     {
@@ -76,38 +78,30 @@ public class SpaceShipInput : MonoBehaviour
 
         strafeExecuteDelay = new WaitForSeconds(strafeExecuteTime);
         strafeCooldownDelay = new WaitForSeconds(strafeCooldownTime);
+
+        mainCam = Camera.main;
+
+        vcam_driftDefaultPrio = vcam_drift.Priority;
+    }
+    
+    void OnEnable() {
+        ToggleControls(true);
     }
 
-    void Start()
-    {
-        // impulseFlare.SetActive(false);
-
+    void Start() {
         emissColorID = Shader.PropertyToID("_EmissionColor");
-    }
 
-    void OnEnable()
-    {
-        mainControls.FreeFlight.VelocityChange.performed += OnVelocityChangePerformed;
-        mainControls.FreeFlight.VelocityChange.canceled += OnVelocityChangeCanceled;
-        mainControls.FreeFlight.Boost.performed += OnBoostPerformed;
-        mainControls.FreeFlight.Boost.canceled += OnBoostCanceled;
-        mainControls.FreeFlight.Drift.performed += OnDriftPerformed;
-        mainControls.FreeFlight.Drift.canceled += OnDriftCanceled;
-        mainControls.FreeFlight.Strafe.performed += OnStrafePerformed;
-
-        mainControls.Enable();
+        Debug.Log("SpaceShipInput start");
+        // if(weaponMount_R != null) weaponMount_R.MountWeapon(this);
+        // if(weaponMount_L != null) weaponMount_L.MountWeapon(this);
     }
 
     void Update()
     {
         if(isDrifting){
-            // currentBoostIncrease = Mathf.SmoothStep(currentBoostIncrease, 0f, boostDeclineRate * Time.deltaTime);
-            // currentSpeedFactor = Mathf.SmoothStep(currentSpeedFactor, 0f, speedChangeRate * 5f * Time.deltaTime);
+            // TODO: check if speed should really decline on drift when drifting from boost
             currentSpeed = Mathf.SmoothStep(currentSpeed, Mathf.Min(driftEnterSpeed, maxSpeed), boostDeclineRateOnDrift * Time.deltaTime);
-            // currentSpeed = currentDriftSpeed;
-            aggregateVelocity = driftVelocity.normalized * currentSpeed;
-        } else if (isExitingDrift) {
-            aggregateVelocity = lerpedCorrectionVelocity;
+            aggregateVelocity = driftEnterVelocity.normalized * currentSpeed;
         } else {
             currentSpeedFactor = isBoosting ? 
                 Mathf.MoveTowards(currentSpeedFactor, 1f, speedChangeRateOnBoost * Time.deltaTime) : 
@@ -118,20 +112,19 @@ public class SpaceShipInput : MonoBehaviour
 
             currentSpeed = (maxSpeed * currentSpeedFactor) + currentBoostIncrease;
 
-            aggregateVelocity = playerAim.transform.forward * currentSpeed;
+            aggregateVelocity = mainCam.transform.forward * currentSpeed;
         }
 
         if(isStrafing){
-            aggregateVelocity += playerAim.transform.right * strafeSpeed * Mathf.Max(1f, currentSpeed) * strafeDirection;
-            // rb.AddForce(playerAim.transform.right * strafeSpeed * strafeDirection, ForceMode.Acceleration);
+            aggregateVelocity += mainCam.transform.right * strafeSpeed * strafeDirection;
         }
 
-        velocityDotAim = Vector3.Dot(rb.velocity.normalized, playerAim.transform.forward);
+        velocityDotAim = Vector3.Dot(rb.velocity.normalized, mainCam.transform.forward);
     }
 
     void FixedUpdate()
     {   
-        rb.velocity = aggregateVelocity;
+        rb.velocity = isExitingDrift ? lerpedCorrectionVelocity : aggregateVelocity;
     }
 
     void LateUpdate()
@@ -145,6 +138,39 @@ public class SpaceShipInput : MonoBehaviour
 
         impulseLight.intensity = Mathf.SmoothStep(0f, defaultImpulseLightIntensity, currentSpeedFactor);
         flareLight_L.intensity = flareLight_R.intensity = Mathf.SmoothStep(0f, defaultBoostLightIntensity, boostAxisRaw);
+
+        vcam_drift.Priority = isDrifting ? vcam_driftDefaultPrio + 3 : vcam_driftDefaultPrio;
+    }
+
+    void ToggleControls(bool onOff){
+        if(mainControls == null){
+            mainControls = new MainControls();
+        }
+
+        if(onOff){
+            mainControls.FreeFlight.VelocityChange.performed += OnVelocityChangePerformed;
+            mainControls.FreeFlight.VelocityChange.canceled += OnVelocityChangeCanceled;
+            mainControls.FreeFlight.Boost.performed += OnBoostPerformed;
+            mainControls.FreeFlight.Boost.canceled += OnBoostCanceled;
+            mainControls.FreeFlight.Drift.performed += OnDriftPerformed;
+            mainControls.FreeFlight.Drift.canceled += OnDriftCanceled;
+            mainControls.FreeFlight.Strafe.performed += OnStrafePerformed;
+            mainControls.FreeFlight.Fire.performed += OnFireTriggered;
+            mainControls.FreeFlight.Fire.canceled += OnFireCanceled;
+            mainControls.Enable();
+        } else {
+            mainControls.Disable();
+            mainControls.FreeFlight.VelocityChange.performed -= OnVelocityChangePerformed;
+            mainControls.FreeFlight.VelocityChange.canceled -= OnVelocityChangeCanceled;
+            mainControls.FreeFlight.Boost.performed -= OnBoostPerformed;
+            mainControls.FreeFlight.Boost.canceled -= OnBoostCanceled;
+            mainControls.FreeFlight.Drift.performed -= OnDriftPerformed;
+            mainControls.FreeFlight.Drift.canceled -= OnDriftCanceled;
+            mainControls.FreeFlight.Strafe.performed -= OnStrafePerformed;
+            mainControls.FreeFlight.Fire.performed -= OnFireTriggered;
+            mainControls.FreeFlight.Fire.canceled -= OnFireCanceled;
+        }
+        
     }
 
     void OnVelocityChangePerformed(InputAction.CallbackContext context){
@@ -158,9 +184,6 @@ public class SpaceShipInput : MonoBehaviour
     void OnBoostPerformed(InputAction.CallbackContext context){
         boostAxisRaw = context.ReadValue<float>();
         isBoosting = true;
-        // if(boostAxisRaw > maxSpeedOnBoostThreshold){
-        //     isBoosting = true;
-        // }
     }
 
     void OnBoostCanceled(InputAction.CallbackContext context){
@@ -172,10 +195,9 @@ public class SpaceShipInput : MonoBehaviour
         isDrifting = true;
         driftEnterSpeedFactor = currentSpeedFactor;
         
-        driftVelocity = rb.velocity;
+        driftEnterVelocity = rb.velocity;
 
-        driftEnterSpeed = driftVelocity.magnitude;
-        // driftEnterVelocity = Mathf.Clamp(rb.velocity.magnitude, 0f, maxSpeed);
+        driftEnterSpeed = driftEnterVelocity.magnitude;
         
         vcam_drift.Priority += 3;
 
@@ -184,9 +206,8 @@ public class SpaceShipInput : MonoBehaviour
     }
 
     void OnDriftCanceled(InputAction.CallbackContext context){
-        vcam_drift.Priority -= 3;
+        vcam_drift.Priority = vcam_driftDefaultPrio;
         
-        // currentSpeed = 0f; // after leaving drift, we want to accelerate toward previous speed from 0
         currentSpeedFactor = driftEnterSpeedFactor;
         isDrifting = false;
 
@@ -194,38 +215,39 @@ public class SpaceShipInput : MonoBehaviour
             Debug.Log("Start exit drift routine");
             exitDriftRoutine = StartCoroutine(ExitDriftRoutine());
         }
-        // rb.AddForce(playerAim.transform.forward * exitDriftAcceleration, ForceMode.Impulse);
         
         OnShipStateExited?.Invoke(ShipState.Drift);
     }
 
-    public void OnStrafePerformed(InputAction.CallbackContext context){
+    void OnStrafePerformed(InputAction.CallbackContext context){
         strafeAxisRaw = context.ReadValue<float>();
         
         if(isStrafing || isStrafeOnCooldown) return;
-        // else if(Mathf.Abs(strafeAxisRaw) > 0.5f) {
             strafeDirection = Mathf.Sign(strafeAxisRaw);
             strafeExecuteDelay = new WaitForSeconds(strafeExecuteTime);
             strafeRoutine = StartCoroutine(StrafeRoutine());
-        // }
+    }
+
+    void OnFireTriggered(InputAction.CallbackContext context){
+        if(weaponMount_R != null) weaponMount_R.BeginFiring();
+        if(weaponMount_L != null) weaponMount_L.BeginFiring();
+    }
+
+    void OnFireCanceled(InputAction.CallbackContext context){
+        if(weaponMount_R != null) weaponMount_R.EndFiring();
+        if(weaponMount_L != null) weaponMount_L.EndFiring();
     }
 
     private IEnumerator ExitDriftRoutine(){
         isExitingDrift = true;
         
-        // Time.timeScale = 0.25f;
-        
         for(float t = 0f; t < exitDriftCorrectionTime; t += Time.deltaTime){
-            if(isDrifting || isBoosting) {
+            if(isDrifting) {
                 break;
             }
-            // lerpedCorrectionVelocity = Vector3.Lerp(-driftDirection * exitDriftCorrectionSpeed * currentSpeedFactor, playerAim.transform.forward * driftEnterVelocity, t / exitDriftCorrectionTime);
-            // lerpedCorrectionVelocity = Quaternion.Lerp(Quaternion.LookRotation(-driftDirection), Quaternion.LookRotation(playerAim.transform.forward), t / exitDriftCorrectionTime).eulerAngles.normalized;
-            lerpedCorrectionVelocity = Vector3.LerpUnclamped(driftVelocity.normalized * currentSpeed, playerAim.transform.forward * CurrentMaxSpeed, t / exitDriftCorrectionTime);
+            lerpedCorrectionVelocity = Vector3.LerpUnclamped(driftEnterVelocity, aggregateVelocity, t / exitDriftCorrectionTime);
             yield return null;
         }
-
-        // Time.timeScale = 1f;
 
         isExitingDrift = false;
         exitDriftThrust_ps.Play();
@@ -242,14 +264,7 @@ public class SpaceShipInput : MonoBehaviour
 
     void OnDisable()
     {
-        mainControls.Disable();
-        mainControls.FreeFlight.VelocityChange.performed -= OnVelocityChangePerformed;
-        mainControls.FreeFlight.VelocityChange.canceled -= OnVelocityChangeCanceled;
-        mainControls.FreeFlight.Boost.performed -= OnBoostPerformed;
-        mainControls.FreeFlight.Boost.canceled -= OnBoostCanceled;
-        mainControls.FreeFlight.Drift.performed -= OnDriftPerformed;
-        mainControls.FreeFlight.Drift.canceled -= OnDriftCanceled;
-        mainControls.FreeFlight.Strafe.performed -= OnStrafePerformed;
+        ToggleControls(false);
     }
 
     void OnDrawGizmos()
@@ -266,3 +281,4 @@ public class SpaceShipInput : MonoBehaviour
 
 }
 
+}

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using Cinemachine;
 
+namespace Soulspace {
 public class PlayerAim : MonoBehaviour
 {
 
@@ -19,17 +20,20 @@ public class PlayerAim : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float resetOrientationSpeed;
     [SerializeField] private float resetOrientationThresholdZ;
-    [SerializeField] private float turnCamInputThreshold;
+    [SerializeField] private float turnCamInputThreshold, turnCamLerpSpeed;
     [SerializeField] private Vector2 turnSpeedFreeFlight;
     [SerializeField] private Vector2 turnSpeedDrift;
+    [SerializeField] private AnimationCurve turnCamWeightCurve;
 
     [Header("Scene references")]
     [SerializeField] private Transform reticlePos;
     [SerializeField] private CinemachineVirtualCamera vcam_freeFlightTurn;
+    [SerializeField] private CinemachineMixingCamera vcam_freeFlightMix;
 
     [Header("Internals")]
     [ReadOnly, SerializeField] private bool resettingOrientation = false;
     [ReadOnly, SerializeField] private float currentResetOrientationVelocity;
+    [ReadOnly, SerializeField] private float turnCamLerp;
     [ReadOnly, SerializeField] private Vector2 currentTurnSpeed;
     [SerializeField] private Vector2 turnInputRaw;
     [ReadOnly, SerializeField] private Vector3 resettingEulers;
@@ -59,11 +63,19 @@ public class PlayerAim : MonoBehaviour
     }
 
     private void LateUpdate(){
-        if(Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold){
-            vcam_freeFlightTurn.Priority = 11;
-        } else {
-            vcam_freeFlightTurn.Priority = 9;
-        }
+        // if(Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold){
+        //     vcam_freeFlightTurn.Priority = 11;
+        // } else {
+        //     vcam_freeFlightTurn.Priority = 9;
+        // }
+
+        // vcam_freeFlightTurn.Priority = Mathf.Abs(turnInputRaw.y) > turnCamInputThreshold ? vcam_freeFlightTurnDefaultPrio + 2 : vcam_freeFlightTurnDefaultPrio;
+
+        turnCamLerp = Mathf.MoveTowards(turnCamLerp, turnInputRaw.y, Time.deltaTime * turnCamLerpSpeed);
+
+        vcam_freeFlightMix.m_Weight0 = 1f - Mathf.Abs(turnCamWeightCurve.Evaluate(turnCamLerp));
+        vcam_freeFlightMix.m_Weight1 = Mathf.Clamp01(0f - turnCamWeightCurve.Evaluate(turnCamLerp));
+        vcam_freeFlightMix.m_Weight2 = Mathf.Clamp01(0f + turnCamWeightCurve.Evaluate(turnCamLerp));
 
         if(resettingOrientation){
             resettingEulers = transform.eulerAngles;
@@ -128,4 +140,5 @@ public class PlayerAim : MonoBehaviour
             Gizmos.DrawLine(transform.position, reticlePos.position);
         }
     }
+}
 }
