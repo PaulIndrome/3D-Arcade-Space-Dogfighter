@@ -13,7 +13,8 @@ public class EnemyMovementPolarith : MonoBehaviour
         PursueTarget = 1 << 1,
         FindNextTargetAndAttack = 1 << 2,
         FlyToTargetPoint = 1 << 3,
-        FlyForwardAvoidCollision = 1 << 4
+        FlyForwardAvoidCollision = 1 << 4,
+        Wander = 1 << 5
     }
 
     [System.Serializable]
@@ -32,10 +33,12 @@ public class EnemyMovementPolarith : MonoBehaviour
     [Foldout("Polarith Settings"), SerializeField] private AIMContext targetFlybyDetection;
     [Foldout("Polarith Settings"), SerializeField] private AIMSeekBounds seekCollisionBounds;
     [Foldout("Polarith Settings"), SerializeField, ReadOnly] private float decisionValue0, decisionValue1;
+
     
 
     [Header("Polarith behaviour sets")]
-    [SerializeField] List<PolarithBehaviourSet> behaviourSets;
+    [SerializeField] private List<AIMSteeringBehaviour> dynamicTargetBehaviours;
+    [SerializeField] private List<PolarithBehaviourSet> behaviourSets;
 
     [Foldout("Internals"), ReadOnly, SerializeField] private PolarithBehaviourType currentBehaviour, nextBehaviour;
     [Foldout("Internals"), ReadOnly, SerializeField] private float decidedMagnitude;
@@ -119,6 +122,37 @@ public class EnemyMovementPolarith : MonoBehaviour
         // Debug.DrawRay(transform.position, aIMContext.DecidedDirection, Color.cyan, 0.2f);
     }
 
+    public void ClearAllTargets(){
+        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+            steeringBehaviour.FilteredEnvironments = null;
+            steeringBehaviour.GameObjects = null;
+        }
+    }
+
+    public void SetTargetEnvironment(in List<string> environments){
+        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+            steeringBehaviour.FilteredEnvironments = environments;
+        }
+    }
+
+    public void SetTarget(GameObject target){
+        if(target == null){
+            // TODO: enforce an idle behaviour? select from different idle behaviours?
+            nextBehaviour = PolarithBehaviourType.Idle;
+            return;
+        }
+
+        List<GameObject> targetGameObjects = new List<GameObject>(){target};
+
+        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+            steeringBehaviour.GameObjects = targetGameObjects;
+        }
+    }
+
+    public void PursueTarget(GameObject target){
+
+    }
+
     void FlyForwardAvoidCollision(){
         decidedDirection = basicSteering.DecidedDirection;
         decidedMagnitude = basicSteering.DecidedMagnitude;
@@ -157,9 +191,15 @@ public class EnemyMovementPolarith : MonoBehaviour
         } 
     }
 
+    [ContextMenu("Activate Pursue Set Target")]
+    public void ActivatePursueSetTarget(){
+        nextBehaviour = PolarithBehaviourType.PursueTarget;
+    }
+
     [ContextMenu("Activate Pursue Player")]
     public void ActivatePursuePlayer(){
-        // ActivateAIMBehaviourType(PolarithBehaviourType.PursueTarget);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        SetTarget(player);
         nextBehaviour = PolarithBehaviourType.PursueTarget;
     }
 
@@ -174,7 +214,6 @@ public class EnemyMovementPolarith : MonoBehaviour
 
         foreach(AIMBehaviour behaviour in allAIMBehaviours){
             bool enableBehaviour = behaviourSets[indexOfBehaviour].behaviours.Contains(behaviour);
-            // Debug.Log($"{behaviour.Label} => {(enableBehaviour ? "en" : "dis")}abled", behaviour);
             behaviour.enabled = enableBehaviour;
         }
 
@@ -182,7 +221,7 @@ public class EnemyMovementPolarith : MonoBehaviour
     }
 
     IEnumerator FlybyDelay(float delay){
-        Debug.Log("FlybyDelay started");
+        Debug.Log($"{gameObject.name} started FlybyDelay of {delay}s", this);
         PolarithBehaviourType behaviourToRestore = currentBehaviour;
         yield return new WaitForSeconds(delay);
         nextBehaviour = behaviourToRestore;

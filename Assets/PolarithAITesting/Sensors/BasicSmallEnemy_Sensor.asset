@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 488664190, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
-  m_Name: ShipControllerTestSensor
+  m_Name: BasicSmallEnemy_Sensor
   m_EditorClassIdentifier: 
   SpatialSensor:
     receptors:
