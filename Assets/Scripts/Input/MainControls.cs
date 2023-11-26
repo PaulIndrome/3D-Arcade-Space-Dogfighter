@@ -89,6 +89,33 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectGatlingWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""b0630911-5dc8-43c4-a2d9-28084ddc391f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectRocketWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e77a749-de20-49b4-a95a-822b6698b4bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectEnergyWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f28c408-76ab-41ec-95b7-b40ce1edf2a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -168,6 +195,39 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68a62514-0433-4cdc-aebf-08a075a73f71"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Spaceship"",
+                    ""action"": ""SelectGatlingWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""056b0bf5-f225-40ec-876e-522868a32adb"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Spaceship"",
+                    ""action"": ""SelectRocketWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8460c39-9bc4-419f-a68e-7e70e0c3456e"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Spaceship"",
+                    ""action"": ""SelectEnergyWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -195,6 +255,9 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         m_FreeFlight_Drift = m_FreeFlight.FindAction("Drift", throwIfNotFound: true);
         m_FreeFlight_Boost = m_FreeFlight.FindAction("Boost", throwIfNotFound: true);
         m_FreeFlight_Fire = m_FreeFlight.FindAction("Fire", throwIfNotFound: true);
+        m_FreeFlight_SelectGatlingWeapon = m_FreeFlight.FindAction("SelectGatlingWeapon", throwIfNotFound: true);
+        m_FreeFlight_SelectRocketWeapon = m_FreeFlight.FindAction("SelectRocketWeapon", throwIfNotFound: true);
+        m_FreeFlight_SelectEnergyWeapon = m_FreeFlight.FindAction("SelectEnergyWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -263,6 +326,9 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_FreeFlight_Drift;
     private readonly InputAction m_FreeFlight_Boost;
     private readonly InputAction m_FreeFlight_Fire;
+    private readonly InputAction m_FreeFlight_SelectGatlingWeapon;
+    private readonly InputAction m_FreeFlight_SelectRocketWeapon;
+    private readonly InputAction m_FreeFlight_SelectEnergyWeapon;
     public struct FreeFlightActions
     {
         private @MainControls m_Wrapper;
@@ -274,6 +340,9 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_FreeFlight_Drift;
         public InputAction @Boost => m_Wrapper.m_FreeFlight_Boost;
         public InputAction @Fire => m_Wrapper.m_FreeFlight_Fire;
+        public InputAction @SelectGatlingWeapon => m_Wrapper.m_FreeFlight_SelectGatlingWeapon;
+        public InputAction @SelectRocketWeapon => m_Wrapper.m_FreeFlight_SelectRocketWeapon;
+        public InputAction @SelectEnergyWeapon => m_Wrapper.m_FreeFlight_SelectEnergyWeapon;
         public InputActionMap Get() { return m_Wrapper.m_FreeFlight; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -304,6 +373,15 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @SelectGatlingWeapon.started += instance.OnSelectGatlingWeapon;
+            @SelectGatlingWeapon.performed += instance.OnSelectGatlingWeapon;
+            @SelectGatlingWeapon.canceled += instance.OnSelectGatlingWeapon;
+            @SelectRocketWeapon.started += instance.OnSelectRocketWeapon;
+            @SelectRocketWeapon.performed += instance.OnSelectRocketWeapon;
+            @SelectRocketWeapon.canceled += instance.OnSelectRocketWeapon;
+            @SelectEnergyWeapon.started += instance.OnSelectEnergyWeapon;
+            @SelectEnergyWeapon.performed += instance.OnSelectEnergyWeapon;
+            @SelectEnergyWeapon.canceled += instance.OnSelectEnergyWeapon;
         }
 
         private void UnregisterCallbacks(IFreeFlightActions instance)
@@ -329,6 +407,15 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @SelectGatlingWeapon.started -= instance.OnSelectGatlingWeapon;
+            @SelectGatlingWeapon.performed -= instance.OnSelectGatlingWeapon;
+            @SelectGatlingWeapon.canceled -= instance.OnSelectGatlingWeapon;
+            @SelectRocketWeapon.started -= instance.OnSelectRocketWeapon;
+            @SelectRocketWeapon.performed -= instance.OnSelectRocketWeapon;
+            @SelectRocketWeapon.canceled -= instance.OnSelectRocketWeapon;
+            @SelectEnergyWeapon.started -= instance.OnSelectEnergyWeapon;
+            @SelectEnergyWeapon.performed -= instance.OnSelectEnergyWeapon;
+            @SelectEnergyWeapon.canceled -= instance.OnSelectEnergyWeapon;
         }
 
         public void RemoveCallbacks(IFreeFlightActions instance)
@@ -364,5 +451,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnSelectGatlingWeapon(InputAction.CallbackContext context);
+        void OnSelectRocketWeapon(InputAction.CallbackContext context);
+        void OnSelectEnergyWeapon(InputAction.CallbackContext context);
     }
 }

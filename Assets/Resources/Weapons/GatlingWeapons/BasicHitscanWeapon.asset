@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3d3dde410ae6f4fa1f2e15fdca8641, type: 3}
+  m_Name: BasicHitscanWeapon
+  m_EditorClassIdentifier: 
+  isFiring: 0
+  getTargetingFromParent: 1
+  targetingSystem: {fileID: 0}
+  weaponHitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  weaponSettings: {fileID: 11400000, guid: 48c6fafc87e3a60449bc73c5926c87ee, type: 2}
+  OnHeatLevelChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFiringFrequencyChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFiringStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFiringStopped:
+    m_PersistentCalls:
+      m_Calls: []
+  firingPositionIndex: 0
+  currentHeatLevel: 0
+  currentFiringFrequency: 0
+  currentFiringInterval: 0
+  lerpedPointHitLocal: {x: 0, y: 0, z: 0}
+  lastPointHitWorld: {x: 0, y: 0, z: 0}

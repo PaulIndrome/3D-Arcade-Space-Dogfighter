@@ -31,7 +31,6 @@ public class SpaceShipInput : MonoBehaviour
     [Foldout("Scene references"), SerializeField] private Light impulseLight, flareLight_R, flareLight_L;
     [Foldout("Scene references"), SerializeField] private CinemachineVirtualCamera vcam_drift;
     [Foldout("Scene references"), SerializeField] private ParticleSystem exitDriftThrust_ps;
-    [Foldout("Scene references"), SerializeField] private WeaponBase weaponMount_L, weaponMount_R;
 
     public Transform ReticlePos => reticlePos;
 
@@ -155,8 +154,6 @@ public class SpaceShipInput : MonoBehaviour
             mainControls.FreeFlight.Drift.performed += OnDriftPerformed;
             mainControls.FreeFlight.Drift.canceled += OnDriftCanceled;
             mainControls.FreeFlight.Strafe.performed += OnStrafePerformed;
-            mainControls.FreeFlight.Fire.performed += OnFireTriggered;
-            mainControls.FreeFlight.Fire.canceled += OnFireCanceled;
             mainControls.Enable();
         } else {
             mainControls.Disable();
@@ -167,8 +164,6 @@ public class SpaceShipInput : MonoBehaviour
             mainControls.FreeFlight.Drift.performed -= OnDriftPerformed;
             mainControls.FreeFlight.Drift.canceled -= OnDriftCanceled;
             mainControls.FreeFlight.Strafe.performed -= OnStrafePerformed;
-            mainControls.FreeFlight.Fire.performed -= OnFireTriggered;
-            mainControls.FreeFlight.Fire.canceled -= OnFireCanceled;
         }
         
     }
@@ -226,16 +221,6 @@ public class SpaceShipInput : MonoBehaviour
             strafeDirection = Mathf.Sign(strafeAxisRaw);
             strafeExecuteDelay = new WaitForSeconds(strafeExecuteTime);
             strafeRoutine = StartCoroutine(StrafeRoutine());
-    }
-
-    void OnFireTriggered(InputAction.CallbackContext context){
-        if(weaponMount_R != null) weaponMount_R.BeginFiring();
-        if(weaponMount_L != null) weaponMount_L.BeginFiring();
-    }
-
-    void OnFireCanceled(InputAction.CallbackContext context){
-        if(weaponMount_R != null) weaponMount_R.EndFiring();
-        if(weaponMount_L != null) weaponMount_L.EndFiring();
     }
 
     private IEnumerator ExitDriftRoutine(){

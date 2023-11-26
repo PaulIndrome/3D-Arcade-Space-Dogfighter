@@ -52,22 +52,19 @@ public class TriggeredWeaponBase : WeaponBase
         throw new System.NotImplementedException();
     }
 
-    protected void GenerateProjectilePool(){
-        // if(projectilePool != null){
-        //     Debug.LogWarning($"Attempted to generate a redundant projectile pool for weapon base {this.name}. Aborting.", this);
-        //     return;
-        // }
+        public override void GenerateProjectilePool()
+        {
+            throw new System.NotImplementedException();
+        }
 
-        // projectilePool = new Queue<ProjectileBase>(weaponSettings.ProjectilePoolSize);
+        public override void DestroyProjectilePool()
+        {
+            throw new System.NotImplementedException();
+        }
 
-        // ProjectileBase projectile;
-        // for(int i = 0; i < weaponSettings.ProjectilePoolSize; i++){
-        //     projectile = Instantiate<ProjectileBase>(weaponSettings.ProjectileBase, firingOrigin.position, firingOrigin.rotation, firingOrigin);
-        //     projectile.name = "Projectile" + i.ToString("000");
-        //     projectile.gameObject.SetActive(false);
-        //     projectile.OnProjectileDestroyed += RequeueProjectile;
-        //     projectilePool.Enqueue(projectile);
-        // }
+        public override void RechargeWeapon()
+        {
+            throw new System.NotImplementedException();
+        }
     }
-}
 }

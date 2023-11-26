@@ -4,98 +4,119 @@ using UnityEngine;
 using NaughtyAttributes;
 
 namespace Soulspace{
-public abstract class WeaponBase : MonoBehaviour
-{
-    public delegate void WeaponDelegate(in WeaponBase weaponBase);
-    public static event WeaponDelegate OnWeaponChanged;
-    protected WeaponDelegate OnMountWeapon, OnUnmountWeapon;
+    public abstract class WeaponBase : ScriptableObject
+    {
+        public delegate void WeaponDelegate(in WeaponBase weaponBase);
+        protected WeaponDelegate OnMountWeapon, OnUnmountWeapon;
 
-    public delegate void WeaponTypeDelegate(WeaponType weaponType);
-    public static event WeaponTypeDelegate OnWeaponTypeChanged;
+        public bool IsFiring => isFiring;
+        [ReadOnly, SerializeField] protected bool isFiring = false;
 
-    public bool IsFiring => isFiring;
-    [ReadOnly, SerializeField] protected bool isFiring = false;
+        public abstract bool CanFire { get; }
+        public abstract WeaponType WeaponType { get; }
+        public abstract WeaponSettingsBase WeaponSettings { get; }
+        public Transform[] FiringOrigins => firingOrigins;
+        public LayerMask ProjectileHitLayers => projectileHitLayers;
 
-    public abstract bool CanFire { get; }
-    public abstract WeaponType WeaponType { get; }
-    public abstract WeaponSettingsBase WeaponSettings { get; }
-    public virtual Transform FiringOrigin => transform;
-    public LayerMask WeaponHitLayers => weaponHitLayers;
+        protected TargetingBase targetingSystem;
+        protected Transform projectilePoolParent;
+        protected Transform[] firingOrigins;
+        protected WeaponObject[] spawnedWeaponObjects;
+        protected LayerMask projectileHitLayers;
 
-    [Header("Settings")]
-    [SerializeField, Tooltip("If true, weapon will attempt to find a targeting system in parent objects on Awake")] protected bool getTargetingFromParent = true;
-    [SerializeField, DisableIf("getTargetingFromParent")] protected TargetingBase targetingSystem;
-    [SerializeField] protected LayerMask weaponHitLayers;
-
-    public Camera MainCam { get; set; }
-    protected Camera mainCam;
-
-    [ContextMenu("DebugWeaponType")]
-    public void DebugWeaponType(){
-        Debug.Log(WeaponType);
-    }
-
-    protected virtual void Awake(){
-        mainCam = Camera.main;
-
-        if(getTargetingFromParent){
-            targetingSystem = GetComponentInParent<TargetingBase>();
+        [ContextMenu("DebugWeaponType")]
+        public void DebugWeaponType(){
+            Debug.Log($"WeaponType: {WeaponType}", this);
+            Debug.Log($"WeaponClass: {GetType()}", this);
         }
-        if(targetingSystem == null){
-            Debug.LogWarning($"Weaponbase {this.name} was unable to find a targeting system. Disabling.", this);
-            enabled = false;
-        }
-    }
 
-    protected virtual void OnEnable(){
-        if(targetingSystem.CurrentActiveWeapon == null){
-            targetingSystem.SetCurrentActiveWeapon(this);
-        }
-    }
-
-    protected virtual void OnDisable(){
-        if(targetingSystem.CurrentActiveWeapon == this){
-            targetingSystem.SetCurrentActiveWeapon(this);
-        }
-    }
-
-    protected virtual void Start(){
-        if(enabled){
-            OnWeaponChanged(this);
-        }
-    }
-
-    public virtual bool ToggleFiring(bool onOff){
-        if(CanFire && !isFiring && onOff){
-            BeginFiring();
-            return true;
-        } else if (isFiring){
-            EndFiring();
+        public virtual bool ToggleFiring(bool onOff){
+            if(CanFire && !isFiring && onOff){
+                BeginFiring();
+                return true;
+            } else if (isFiring){
+                EndFiring();
+                return false;
+            }
             return false;
         }
-        return false;
-    }
 
-    public abstract bool CheckFire();
+        public abstract bool CheckFire();
 
-    public virtual bool BeginFiring(){
-        if(isFiring || !CheckFire()) return false;
-        return true;
-    }
-    public abstract void Fire();
-    public abstract void FireAt(Vector3 targetPoint);
-    public abstract void EndFiring();
-
-    public virtual void MountWeapon(Transform[] mountPositions){
-        Debug.Log("Mounting weapon" + name);
-        targetingSystem.SetCurrentActiveWeapon(this);
-        for(int i = 0; i < mountPositions.Length; i++){
-            
+        public virtual bool BeginFiring(){
+            if(isFiring || !CheckFire()) return false;
+            return true;
         }
-    }
+        public abstract void Fire();
+        public abstract void FireAt(Vector3 targetPoint);
+        public abstract void EndFiring();
+        public abstract void GenerateProjectilePool();
+        public abstract void DestroyProjectilePool();
 
-    public virtual void UnmountWeapon(){
-        targetingSystem.SetCurrentActiveWeapon(this);
+        public virtual void InitializeWeapon(in Transform[] mountPositions, in Transform projectilePoolParent = null){
+            if(mountPositions.Length < 1){
+                throw new System.ArgumentException("Can not initialize a weapon without at least 1 mount position. Aborting.");
+            }
+
+            this.projectilePoolParent = projectilePoolParent != null ? projectilePoolParent : mountPositions[0];
+
+            firingOrigins = new Transform[mountPositions.Length];
+            spawnedWeaponObjects = new WeaponObject[mountPositions.Length];
+
+            for(int i = 0; i < mountPositions.Length; i++){
+                if(mountPositions[i] == null){
+                    Debug.LogWarning("Attempted to initialize a weapon to a null mount position. Skipping.", this);
+                    continue;
+                }
+                WeaponObject weaponObject = Instantiate<WeaponObject>(WeaponSettings.WeaponObjectPrefab, mountPositions[i].position, mountPositions[i].rotation, mountPositions[i]);
+                spawnedWeaponObjects[i] = weaponObject;
+                firingOrigins[i] = weaponObject.FiringOrigin;
+                weaponObject.gameObject.SetActive(false);
+            }
+        }
+
+        public virtual void UninitializeWeapon(){
+            for(int i = 0; i < spawnedWeaponObjects.Length; i++){
+                Destroy(spawnedWeaponObjects[i].gameObject);
+            }
+            
+            spawnedWeaponObjects = null;
+            firingOrigins = null;
+
+            DestroyProjectilePool();
+        }
+
+        public virtual void MountWeapon(TargetingBase targetingBase){
+            if(targetingBase == null){
+                Debug.LogWarning($"Attempted to mount a weapon without a targeting system. Aborting.", this);
+                return;
+            }
+
+            Debug.Log("Mounting weapon" + name);
+
+            targetingSystem = targetingBase;
+            projectileHitLayers = targetingSystem.ProjectileHitLayers;
+
+            GenerateProjectilePool();
+
+            for(int i = 0; i < spawnedWeaponObjects.Length; i++){
+                spawnedWeaponObjects[i].gameObject.SetActive(true);
+            }
+
+            if(targetingSystem.CurrentActiveWeapon == null){
+                targetingSystem.SetCurrentActiveWeapon(this);
+            }
+        }
+
+        public virtual void UnmountWeapon(){
+            for(int i = 0; i < spawnedWeaponObjects.Length; i++){
+                spawnedWeaponObjects[i].gameObject.SetActive(false);
+            }
+
+            targetingSystem.SetCurrentActiveWeapon(null);
+            targetingSystem = null;
+        }
+
+        public abstract void RechargeWeapon();
     }
-}
 }

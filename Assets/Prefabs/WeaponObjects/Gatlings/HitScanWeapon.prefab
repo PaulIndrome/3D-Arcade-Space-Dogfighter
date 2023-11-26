@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4901705889894223963}
-  - component: {fileID: 6277480576828839331}
+  - component: {fileID: 1778829322700227719}
   m_Layer: 6
   m_Name: HitScanWeapon
   m_TagString: Untagged
@@ -78,7 +78,7 @@ Transform:
   - {fileID: 6280981288709190893}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6277480576828839331
+--- !u!114 &1778829322700227719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,46 +87,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 272053778756803369}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e3d3dde410ae6f4fa1f2e15fdca8641, type: 3}
+  m_Script: {fileID: 11500000, guid: 226d4858f97c23947a480f9e45329547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFiring: 0
-  getTargetingFromParent: 1
-  targetingSystem: {fileID: 0}
-  weaponHitLayers:
-    serializedVersion: 2
-    m_Bits: 268439552
-  weaponSettings: {fileID: 11400000, guid: 48c6fafc87e3a60449bc73c5926c87ee, type: 2}
   firingOrigin: {fileID: 3615580255817210561}
-  OnHeatLevelChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnFiringFrequencyChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2232276674268291384}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnFiringStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  OnFiringStopped:
-    m_PersistentCalls:
-      m_Calls: []
-  currentHeatLevel: 0
-  currentFiringFrequency: 0
-  currentFiringInterval: 0
-  lerpedPointHitLocal: {x: 0, y: 0, z: 0}
-  lastPointHitWorld: {x: 0, y: 0, z: 0}
 --- !u!1 &453366782789748360
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +226,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5139,7 +5103,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

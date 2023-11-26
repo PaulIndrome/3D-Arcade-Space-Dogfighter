@@ -13,7 +13,7 @@ public class MissileWeaponSettings : WeaponSettingsBase
     public float MissileTurnSpeed => missileTurnSpeed;
     public float ProximityTriggerRange => proximityTriggerRange;
     public override ProjectileBase ProjectileBase => projectilePrefab as MissileProjectileBase;
-    public override float MaxWeaponRange => ProjectileTimeoutDelay * ProjectileExitVelocity + proximityTriggerRange;
+    public override float MaxWeaponTargetingRange => ProjectileTimeoutDelay * ProjectileExitVelocity + proximityTriggerRange;
 
 #endregion
 

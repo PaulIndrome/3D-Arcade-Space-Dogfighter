@@ -9,7 +9,6 @@ public abstract class ProjectileBase : MonoBehaviour
     public event ProjectileDelegateBase OnProjectileDestroyed;
 
     [Header("Scene references")]
-    [SerializeField] protected ParticleSystem muzzleFlashParticleSystem;
     [SerializeField] protected ParticleSystem inFlightParticleSystem;
     [SerializeField] protected ParticleSystem destructionParticleSystem;
     
@@ -22,9 +21,6 @@ public abstract class ProjectileBase : MonoBehaviour
     protected LayerMask hitLayers;
     
     protected virtual void Start(){
-        if(muzzleFlashParticleSystem && muzzleFlashParticleSystem.main.loop){
-            Debug.LogWarning($"Muzzle Flash particle system of projectile {this.name} is set to loop. This might look weird.", this);
-        }
         if(destructionParticleSystem && destructionParticleSystem.main.loop){
             Debug.LogWarning($"Destruction particle system of projectile {this.name} is set to loop. This might break its destruction callbacks.", this);
         }

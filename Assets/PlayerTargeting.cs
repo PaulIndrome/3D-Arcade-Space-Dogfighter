@@ -19,9 +19,6 @@ public class PlayerTargeting : TargetingBase
     public override Vector3 TargetLockPoint => hasTargetLock ? lastTargetFound.LockedTargetPoint.position : Vector3.zero;
     public override Vector3 NoTargetPoint => GetPlayerNoTargetPoint();
 
-    [Header("Settings")]
-    [SerializeField] private LayerMask targetLayers;
-
     [Header("Asset references")]
     [SerializeField] private ScriptableEventInt OnPlayerNewTargetLock_sevt;
     [SerializeField] private ScriptableEventBool OnPlayerHasTargetLockChanged_sevt;
@@ -29,7 +26,7 @@ public class PlayerTargeting : TargetingBase
     [Header("Internals")]
     [ReadOnly, SerializeField] private bool hasTargetLock = false;
     [ReadOnly, SerializeField] private float currentTargetLockRadius = 5;
-    [ReadOnly, SerializeField] private float currentMaxWeaponRange;
+    [ReadOnly, SerializeField] private float currentMaxWeaponRange = 0;
     [ReadOnly, SerializeField] private Ray aimRay;
     [ReadOnly, SerializeField] private RaycastHit aimRayHit;
 
@@ -43,18 +40,14 @@ public class PlayerTargeting : TargetingBase
 
     void Awake(){
         mainCam = Camera.main;
-        queryParameters = new QueryParameters(targetLayers);
-    }
-
-    void OnEnable(){
-        WeaponBase.OnWeaponChanged += OnWeaponChanged;
-    }
-
-    void OnDisable(){
-        WeaponBase.OnWeaponChanged -= OnWeaponChanged;
+        queryParameters = new QueryParameters(targetLayers, false, QueryTriggerInteraction.Collide, false);
     }
 
     void Update(){
+        if(currentTargetLockRadius < 0 || currentMaxWeaponRange < 0){
+            return;
+        }
+        
         raycastHits = new NativeArray<RaycastHit>(1, Allocator.TempJob);
         spherecastCommands = new NativeArray<SpherecastCommand>(1, Allocator.TempJob);
         
@@ -71,6 +64,7 @@ public class PlayerTargeting : TargetingBase
         for(int i = 0; i < raycastHits.Length; i++){
             // we want to enfore a rigidbody on every player-targetable object
             if(!raycastHits[i].rigidbody){
+                Debug.Log("No rigidbody to target", this);
                 lastTargetFound = null;
                 lastHitRigidbodyID = -1;
                 hasTargetLock = false;
@@ -82,6 +76,7 @@ public class PlayerTargeting : TargetingBase
             int hitRigidbodyInstanceID = raycastHits[i].rigidbody.GetInstanceID();
             if(hitRigidbodyInstanceID == lastHitRigidbodyID && hasTargetLock){
                 hasTargetLock = lastTargetFound.CanBeTargeted;
+                // Debug.Log("Can previous target still be targeted?");
                 break;
             }
             
@@ -89,6 +84,7 @@ public class PlayerTargeting : TargetingBase
             if(lastTargetFound != null && lastTargetFound.CanBeTargeted){
                 lastHitRigidbodyID = hitRigidbodyInstanceID;
                 hasTargetLock = true;
+                // Debug.Log("Target can actually be targeted.");
                 break;
             }
         }
@@ -105,18 +101,29 @@ public class PlayerTargeting : TargetingBase
         spherecastCommands.Dispose();
     }
 
-    private void OnWeaponChanged(in WeaponBase weaponBase){
-        currentTargetLockRadius = weaponBase.WeaponSettings.TargetLockRadius;
-        currentMaxWeaponRange = weaponBase.WeaponSettings.MaxWeaponRange;       
+    public void SetWeaponRanges(in WeaponBase weaponBase){
+        if(weaponBase == null){
+            currentTargetLockRadius = currentMaxWeaponRange = 0;
+        } else {
+            currentTargetLockRadius = weaponBase.WeaponSettings.TargetLockRadius;
+            currentMaxWeaponRange = weaponBase.WeaponSettings.MaxWeaponTargetingRange;       
+        }
     }
 
     private Vector3 GetPlayerNoTargetPoint(){
-        float aimRayMaxLength = currentActiveWeapon.WeaponSettings.MaxWeaponRange;
+        float aimRayMaxLength = currentActiveWeapon.WeaponSettings.MaxProjectileRange;
         aimRay = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, aimRayMaxLength));
-        if(Physics.Raycast(aimRay, out aimRayHit, aimRayMaxLength, currentActiveWeapon.WeaponHitLayers)){
+        if(Physics.Raycast(aimRay, out aimRayHit, aimRayMaxLength, currentActiveWeapon.ProjectileHitLayers)){
             return aimRayHit.point;
         } else {
             return aimRay.GetPoint(aimRayMaxLength);
+        }
+    }
+
+    private void OnDrawGizmos() {
+        if(currentActiveWeapon != null){
+            Gizmos.color = Color.magenta * 0.5f;
+            Gizmos.DrawSphere(GetPlayerNoTargetPoint(), 0.6f);
         }
     }
 }

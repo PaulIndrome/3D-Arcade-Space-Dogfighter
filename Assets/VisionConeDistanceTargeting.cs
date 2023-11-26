@@ -22,7 +22,7 @@ public class VisionConeDistanceTargeting : TargetingBase
     [ReadOnly, SerializeField] private float angleToTarget = 0;
 
     public override bool HasTargetLock => targetInSight && targetInFiringRange;
-    public override Vector3 TargetLockPoint => HasTargetLock ? target.position : transform.forward * currentActiveWeapon.WeaponSettings.MaxWeaponRange;
+    public override Vector3 TargetLockPoint => HasTargetLock ? target.position : transform.forward * currentActiveWeapon.WeaponSettings.MaxWeaponTargetingRange;
     public override Vector3 NoTargetPoint => Vector3.forward * maxShootingDistance;
 
     void Update(){

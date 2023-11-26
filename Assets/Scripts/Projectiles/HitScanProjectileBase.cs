@@ -13,19 +13,22 @@ namespace Soulspace
         {
             Debug.Assert(weaponSettings is HitScanWeaponSettings);
 
-            gameObject.SetActive(true);
-            transform.LookAt(targetPoint, transform.parent.up);
-            transform.position = firingOrigin;
-            transform.SetParent(null);
+            Vector3 weaponUp = transform.parent.up;
 
+            gameObject.SetActive(true);
+            transform.SetParent(null);
+            transform.position = firingOrigin;
+            transform.LookAt(targetPoint, weaponUp);
+
+            // for hitscan weapons, target point will be overwritten in DetectCollision in order to facilitate projectiles flying for their max duration if possible
             this.targetPoint = targetPoint;
+
             despawnTimeInSeconds = weaponSettings.ProjectileTimeoutDelay;
             velocity = weaponSettings.ProjectileExitVelocity;
             projectileDamage = weaponSettings.WeaponDamage;
             hitLayers = weaponHitLayers;
-            maxHitScanRange = weaponSettings.MaxWeaponRange;
+            maxHitScanRange = weaponSettings.MaxWeaponTargetingRange;
 
-            if(muzzleFlashParticleSystem != null) muzzleFlashParticleSystem.Play(true);
             if(inFlightParticleSystem != null) inFlightParticleSystem.Play(true);
 
             isActive = true;
@@ -36,6 +39,7 @@ namespace Soulspace
         protected override bool DetectCollision()
         {
             if(!Physics.Raycast(transform.position, transform.forward, out lookaheadRaycastHit, maxHitScanRange, hitLayers)){
+                targetPoint = transform.position + despawnTimeInSeconds * velocity * transform.forward;
                 return false;
             }
 
@@ -52,18 +56,20 @@ namespace Soulspace
 
         protected override void MoveProjectile()
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPoint, velocity * Time.fixedDeltaTime);
+            Debug.DrawLine(transform.position, targetPoint, Color.magenta, Time.deltaTime * 2, false);
+
+            transform.position = Vector3.MoveTowards(transform.position, targetPoint, velocity * Time.deltaTime);
             if(transform.position == targetPoint){
                 inFlightParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
         }
 
-        protected void FixedUpdate(){
+        protected void LateUpdate(){
             if(!isActive) return;
 
             if(despawnTimeInSeconds > 0){
                 MoveProjectile();
-                despawnTimeInSeconds -= Time.fixedDeltaTime;
+                despawnTimeInSeconds -= Time.deltaTime;
             } else {
                 DestroyProjectileObject();
             }

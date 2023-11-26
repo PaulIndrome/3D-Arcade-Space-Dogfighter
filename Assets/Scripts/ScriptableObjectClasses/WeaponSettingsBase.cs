@@ -9,12 +9,14 @@ public abstract class WeaponSettingsBase : ScriptableObject {
 
 #region public accessors
     public WeaponDamageModifiers WeaponDamage => weaponDamage;
+    public WeaponObject WeaponObjectPrefab => weaponObjectPrefab;
     public float ProjectileExitVelocity => projectileExitVelocity;
     public float ProjectileTimeoutDelay => projectileTimeoutDelay;
     public float TargetLockRadius => targetLockRadius;
 #endregion
 
-    public abstract float MaxWeaponRange { get; }
+    public abstract float MaxWeaponTargetingRange { get; }
+    public virtual float MaxProjectileRange => projectileExitVelocity * projectileTimeoutDelay;
     public abstract ProjectileBase ProjectileBase { get; }
 
     [Header("Game Settings")]
@@ -28,6 +30,7 @@ public abstract class WeaponSettingsBase : ScriptableObject {
 
     [Header("Asset references")]
     [SerializeField] protected ProjectileBase projectilePrefab;
+    [SerializeField] protected WeaponObject weaponObjectPrefab;
 
     protected abstract void OnValidate();
 }

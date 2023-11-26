@@ -67,6 +67,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectGatlingWeapon",
+                    "type": "Button",
+                    "id": "b0630911-5dc8-43c4-a2d9-28084ddc391f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectRocketWeapon",
+                    "type": "Button",
+                    "id": "5e77a749-de20-49b4-a95a-822b6698b4bb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectEnergyWeapon",
+                    "type": "Button",
+                    "id": "3f28c408-76ab-41ec-95b7-b40ce1edf2a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -144,6 +171,39 @@
                     "processors": "",
                     "groups": "Spaceship",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68a62514-0433-4cdc-aebf-08a075a73f71",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Spaceship",
+                    "action": "SelectGatlingWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "056b0bf5-f225-40ec-876e-522868a32adb",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Spaceship",
+                    "action": "SelectRocketWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8460c39-9bc4-419f-a68e-7e70e0c3456e",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Spaceship",
+                    "action": "SelectEnergyWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

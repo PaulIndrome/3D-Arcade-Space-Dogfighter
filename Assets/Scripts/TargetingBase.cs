@@ -10,9 +10,14 @@ public abstract class TargetingBase : MonoBehaviour
     public abstract bool HasTargetLock { get; }
     public abstract Vector3 TargetLockPoint { get; }
     public abstract Vector3 NoTargetPoint { get; }
-
+    public LayerMask TargetLayers => targetLayers;
+    public LayerMask ProjectileHitLayers => projectileHitLayers;
     public WeaponBase CurrentActiveWeapon => currentActiveWeapon;
-    protected WeaponBase currentActiveWeapon;
+
+    [Header("Settings")]
+    [SerializeField] protected LayerMask targetLayers;
+    [SerializeField] protected LayerMask projectileHitLayers;
+    [SerializeField] protected WeaponBase currentActiveWeapon;
 
     protected virtual void Invoke_OnHasTargetLockChanged(bool value){
         if(OnHasTargetLockChangedEvent != null) OnHasTargetLockChangedEvent.Invoke(value);

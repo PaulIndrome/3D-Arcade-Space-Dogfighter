@@ -44,13 +44,12 @@ public class BeamWeapon : WeaponBase
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
 
-        if(!beamWeaponRenderer){
-            beamWeaponRenderer = GetComponent<LineRenderer>();
-        }
+        // if(!beamWeaponRenderer){
+        //     beamWeaponRenderer = GetComponent<LineRenderer>();
+        // }
         beamWeaponRenderer.enabled = false;
 
         modifiedBeamWeaponRange = defaultBeamWeaponRange;
@@ -61,15 +60,6 @@ public class BeamWeapon : WeaponBase
         impactRenderers = beamImpactObject.GetComponentsInChildren<MeshRenderer>();
     }
 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    protected override void Start()
-    {
-        ShowImpactVisuals = false;
-    }
 
     void LateUpdate(){
         if(isFiring && CheckFire()){
@@ -111,7 +101,7 @@ public class BeamWeapon : WeaponBase
 
     public override void Fire()
     {
-        if(Physics.Raycast(aimRay, out beamWeaponHit, modifiedBeamWeaponRange, weaponHitLayers)){
+        if(Physics.Raycast(aimRay, out beamWeaponHit, modifiedBeamWeaponRange, projectileHitLayers)){
             lastPointHitWorld = beamWeaponHit.point;
             FollowAim(true);
             TryDealDamage(beamWeaponHit);
@@ -142,7 +132,7 @@ public class BeamWeapon : WeaponBase
     }
 
     private void FollowAim(bool targetHit){
-        aimRay = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        // aimRay = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         if(targetHit){
             lerpedPointHitLocal = Vector3.LerpUnclamped(beamWeaponRenderer.GetPosition(1), beamWeaponRenderer.transform.InverseTransformPoint(beamWeaponHit.point), beamPointLerpRate * Time.deltaTime);
             beamImpactObject.transform.localPosition = lerpedPointHitLocal;
@@ -202,5 +192,20 @@ public class BeamWeapon : WeaponBase
         modifiedHeatIncreaseRate = defaultHeatIncreaseRate;
         modifiedHeatDecreaseRate = defaultHeatDecreaseRate;
     }
-}
+
+        public override void GenerateProjectilePool()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void DestroyProjectilePool()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RechargeWeapon()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
