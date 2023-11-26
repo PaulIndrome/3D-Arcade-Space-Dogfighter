@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
 namespace Soulspace{
-    public abstract class WeaponBase : ScriptableObject
+    public abstract class WeaponBase
     {
         public delegate void WeaponDelegate(in WeaponBase weaponBase);
         protected WeaponDelegate OnMountWeapon, OnUnmountWeapon;
@@ -24,10 +22,9 @@ namespace Soulspace{
         protected WeaponObject[] spawnedWeaponObjects;
         protected LayerMask projectileHitLayers;
 
-        [ContextMenu("DebugWeaponType")]
         public void DebugWeaponType(){
-            Debug.Log($"WeaponType: {WeaponType}", this);
-            Debug.Log($"WeaponClass: {GetType()}", this);
+            Debug.Log($"WeaponType: {WeaponType}");
+            Debug.Log($"WeaponClass: {GetType()}");
         }
 
         public virtual bool ToggleFiring(bool onOff){
@@ -65,10 +62,10 @@ namespace Soulspace{
 
             for(int i = 0; i < mountPositions.Length; i++){
                 if(mountPositions[i] == null){
-                    Debug.LogWarning("Attempted to initialize a weapon to a null mount position. Skipping.", this);
+                    Debug.LogWarning("Attempted to initialize a weapon to a null mount position. Skipping.");
                     continue;
                 }
-                WeaponObject weaponObject = Instantiate<WeaponObject>(WeaponSettings.WeaponObjectPrefab, mountPositions[i].position, mountPositions[i].rotation, mountPositions[i]);
+                WeaponObject weaponObject = Object.Instantiate(WeaponSettings.WeaponObjectPrefab, mountPositions[i].position, mountPositions[i].rotation, mountPositions[i]);
                 spawnedWeaponObjects[i] = weaponObject;
                 firingOrigins[i] = weaponObject.FiringOrigin;
                 weaponObject.gameObject.SetActive(false);
@@ -77,7 +74,7 @@ namespace Soulspace{
 
         public virtual void UninitializeWeapon(){
             for(int i = 0; i < spawnedWeaponObjects.Length; i++){
-                Destroy(spawnedWeaponObjects[i].gameObject);
+                Object.Destroy(spawnedWeaponObjects[i].gameObject);
             }
             
             spawnedWeaponObjects = null;
@@ -88,11 +85,11 @@ namespace Soulspace{
 
         public virtual void MountWeapon(TargetingBase targetingBase){
             if(targetingBase == null){
-                Debug.LogWarning($"Attempted to mount a weapon without a targeting system. Aborting.", this);
+                Debug.LogWarning($"Attempted to mount a weapon without a targeting system. Aborting.", spawnedWeaponObjects[0]);
                 return;
             }
 
-            Debug.Log("Mounting weapon" + name);
+            Debug.Log("Mounting weapon" + WeaponSettings.name);
 
             targetingSystem = targetingBase;
             projectileHitLayers = targetingSystem.ProjectileHitLayers;

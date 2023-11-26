@@ -16,7 +16,7 @@ namespace Soulspace
         private MainControls mainControls;
         private PlayerTargeting playerTargeting;
 
-        private GatlingWeaponBase currentGatlingWeaponCopy;
+        private GatlingWeaponBase currentGatlingWeapon;
         // private RocketWeaponBase currentRocketWeaponCopy;
         // private EnergyWeaponBase currentEnergyWeaponCopy;
 
@@ -67,13 +67,7 @@ namespace Soulspace
                 return;
             }
 
-            currentGatlingWeaponCopy = playerAssignedWeapons.GatlingWeapon;
-            if(currentGatlingWeaponCopy == null){
-                Debug.LogWarning("Player Weapon Mounting could not initialize Gatling Weapon.", this);
-                Debug.LogWarning("Check if Player Assigned Weapons SO for missing references.", playerAssignedWeapons);
-            } else {
-                currentGatlingWeaponCopy.InitializeWeapon(weaponMountPositions);
-            }
+            OnPlayerAssignedWeaponChanged(WeaponType.Gatling, playerAssignedWeapons.GatlingWeaponSettings);
 
             // TODO: add other weapon types to initialize on Start()
         }
@@ -116,15 +110,20 @@ namespace Soulspace
             UnmountCurrentWeapon();
         }
 
-        private void OnPlayerAssignedWeaponChanged(WeaponType weaponType, WeaponBase weaponBase){
+        private void OnPlayerAssignedWeaponChanged(WeaponType weaponType, WeaponSettingsBase weaponSettings){
             switch(weaponType){
                 case WeaponType.Gatling:
-                    if(weaponBase == currentGatlingWeaponCopy){
-                        break;
+                    if(currentGatlingWeapon != null){
+                        if(weaponSettings == currentGatlingWeapon.WeaponSettings){
+                            // no need to initialize a new weapon, we already have it
+                            return;
+                        }
+                        currentGatlingWeapon.UninitializeWeapon();
                     }
-                    currentGatlingWeaponCopy.UninitializeWeapon();
-                    currentGatlingWeaponCopy = weaponBase as GatlingWeaponBase;
-                    currentGatlingWeaponCopy.InitializeWeapon(weaponMountPositions);
+                    Debug.Log("Assigned new weapon: " + weaponType, weaponSettings);
+                    currentGatlingWeapon = new GatlingWeaponBase(weaponSettings as HitScanWeaponSettings);
+                    currentGatlingWeapon.DebugWeaponType();
+                    currentGatlingWeapon.InitializeWeapon(weaponMountPositions);
                     break;
                 case WeaponType.Rocket:
                     // TODO: add weapon type rocket
@@ -139,20 +138,22 @@ namespace Soulspace
         }
 
         public void MountWeapon(WeaponType weaponType){
-            Debug.Log("Mount weapon " + weaponType, this);  
             if(currentMountedWeapon != null && currentMountedWeapon.WeaponType == weaponType){
                 return;
             }
+            Debug.Log("Mount weapon " + weaponType, this);  
 
             UnmountCurrentWeapon();
 
             switch(weaponType){
                 case WeaponType.Gatling:
-                    currentMountedWeapon = currentGatlingWeaponCopy;
+                    Debug.Log("switch case WeaponType.Gatling", this);
+                    currentMountedWeapon = currentGatlingWeapon;
                     break;
             }
 
             if(currentMountedWeapon != null){
+                Debug.Log("Current mounted weapon not null.", currentMountedWeapon.WeaponSettings);
                 playerTargeting.SetWeaponRanges(currentMountedWeapon);
                 currentMountedWeapon.MountWeapon(playerTargeting);
                 hasMountedWeapon = true;
@@ -161,6 +162,7 @@ namespace Soulspace
 
         public void UnmountCurrentWeapon(){
             if(currentMountedWeapon != null){
+                Debug.Log("Unmounting current weapon " + currentMountedWeapon.WeaponType, this);  
                 currentMountedWeapon.UnmountWeapon();
             }
 

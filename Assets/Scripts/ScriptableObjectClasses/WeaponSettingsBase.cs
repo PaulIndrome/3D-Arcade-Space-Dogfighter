@@ -16,6 +16,7 @@ public abstract class WeaponSettingsBase : ScriptableObject {
 #endregion
 
     public abstract float MaxWeaponTargetingRange { get; }
+    public abstract WeaponType WeaponType { get; }
     public virtual float MaxProjectileRange => projectileExitVelocity * projectileTimeoutDelay;
     public abstract ProjectileBase ProjectileBase { get; }
 

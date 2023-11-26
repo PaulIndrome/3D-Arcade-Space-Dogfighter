@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3ff25019e55ae4bbc13ca62e30a985, type: 3}
   m_Name: PlayerAssignedWeapons_SO
   m_EditorClassIdentifier: 
-  gatlingWeapon: {fileID: 11400000, guid: cca873bcaf7d8ee49be17e35ef88950c, type: 2}
-  rocketWeapon: {fileID: 0}
-  energyWeapon: {fileID: 0}
+  gatlingWeaponSettings: {fileID: 11400000, guid: 48c6fafc87e3a60449bc73c5926c87ee, type: 2}
+  rocketWeaponSettings: {fileID: 0}
+  energyWeaponSettings: {fileID: 0}

@@ -64,7 +64,7 @@ public class PlayerTargeting : TargetingBase
         for(int i = 0; i < raycastHits.Length; i++){
             // we want to enfore a rigidbody on every player-targetable object
             if(!raycastHits[i].rigidbody){
-                Debug.Log("No rigidbody to target", this);
+                // Debug.Log("No rigidbody to target", this);
                 lastTargetFound = null;
                 lastHitRigidbodyID = -1;
                 hasTargetLock = false;

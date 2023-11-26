@@ -7,36 +7,38 @@ namespace Soulspace
     [CreateAssetMenu(fileName = "PlayerAssignedWeapons", menuName = "Soulspace/Player/Player Assigned Weapons")]
     public class PlayerAssignedWeapons : ScriptableObject
     {
-        public delegate void PlayerAssignedWeaponChangeDelegate(WeaponType weaponType, WeaponBase weaponBase);
+        public delegate void PlayerAssignedWeaponChangeDelegate(WeaponType weaponType, WeaponSettingsBase weaponSettingsBase);
         public event PlayerAssignedWeaponChangeDelegate OnPlayerAssignedWeaponChanged;
 
-        public GatlingWeaponBase GatlingWeapon => gatlingWeapon;
-        public WeaponBase RocketWeapon => rocketWeapon;
-        public WeaponBase EnergyWeapon => energyWeapon;
+        public HitScanWeaponSettings GatlingWeaponSettings => gatlingWeaponSettings;
+        public WeaponSettingsBase RocketWeaponSettings => rocketWeaponSettings;
+        public WeaponSettingsBase EnergyWeaponSettings => energyWeaponSettings;
         
-        [SerializeField] private GatlingWeaponBase gatlingWeapon;
-        [SerializeField] private WeaponBase rocketWeapon;
-        [SerializeField] private WeaponBase energyWeapon;
+        [SerializeField] private HitScanWeaponSettings gatlingWeaponSettings;
+        [SerializeField] private WeaponSettingsBase rocketWeaponSettings;
+        [SerializeField] private WeaponSettingsBase energyWeaponSettings;
 
-        public bool AssignWeapon(in WeaponBase weaponBase){
-            switch(weaponBase.WeaponType){
+        public bool AssignWeapon(in WeaponSettingsBase weaponSettings){
+            switch(weaponSettings.WeaponType){
                 case WeaponType.Gatling:
-                    if(weaponBase == gatlingWeapon){
+                    if(weaponSettings == gatlingWeaponSettings){
                         return false;
                     }
-                    gatlingWeapon = weaponBase as GatlingWeaponBase;
+                    gatlingWeaponSettings = weaponSettings as HitScanWeaponSettings;
                     break;
                 case WeaponType.Rocket:
-                    if(weaponBase == rocketWeapon){
+                    if(weaponSettings == rocketWeaponSettings){
                         return false;
                     }
-                    rocketWeapon = weaponBase;
+                    // TODO: create RocketWeaponSettingsBase
+                    // rocketWeapon = weaponSettings;
                     break;
                 case WeaponType.Energy:
-                    if(weaponBase == energyWeapon){
+                    if(weaponSettings == energyWeaponSettings){
                         return false;
                     }
-                    energyWeapon = weaponBase;
+                    // TODO: create EnergyWeaponSettingsBase
+                    // energyWeapon = weaponSettings;
                     break;
                 default:
                     Debug.LogWarning("Attempted to assign invalid weapon type to player assigned weapons. Skipping.", this);
@@ -44,20 +46,20 @@ namespace Soulspace
             }
 
             if(OnPlayerAssignedWeaponChanged != null){
-                OnPlayerAssignedWeaponChanged.Invoke(weaponBase.WeaponType, weaponBase);
+                OnPlayerAssignedWeaponChanged.Invoke(weaponSettings.WeaponType, weaponSettings);
             }
 
             return true;
         }
 
-        public WeaponBase GetCurrentAssignedWeaponOfType(WeaponType weaponType){
+        public WeaponSettingsBase GetCurrentAssignedWeaponSettingsOfType(WeaponType weaponType){
             switch(weaponType){
                 case WeaponType.Gatling:
-                    return gatlingWeapon;
+                    return gatlingWeaponSettings;
                 case WeaponType.Rocket:
-                    return rocketWeapon;
+                    return rocketWeaponSettings;
                 case WeaponType.Energy:
-                    return energyWeapon;
+                    return energyWeaponSettings;
                 default:
                     throw new System.ArgumentException($"PlayerAssignedWeapons object {this.name} asked to return a non-player-assignable weapon type: {weaponType}. Throwing.");
             }

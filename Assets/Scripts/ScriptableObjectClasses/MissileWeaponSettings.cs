@@ -14,7 +14,7 @@ public class MissileWeaponSettings : WeaponSettingsBase
     public float ProximityTriggerRange => proximityTriggerRange;
     public override ProjectileBase ProjectileBase => projectilePrefab as MissileProjectileBase;
     public override float MaxWeaponTargetingRange => ProjectileTimeoutDelay * ProjectileExitVelocity + proximityTriggerRange;
-
+    public override WeaponType WeaponType => WeaponType.Rocket;
 #endregion
 
     [Header("Missile Projectile Settings")]

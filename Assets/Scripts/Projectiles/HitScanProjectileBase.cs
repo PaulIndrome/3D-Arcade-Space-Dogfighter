@@ -56,8 +56,6 @@ namespace Soulspace
 
         protected override void MoveProjectile()
         {
-            Debug.DrawLine(transform.position, targetPoint, Color.magenta, Time.deltaTime * 2, false);
-
             transform.position = Vector3.MoveTowards(transform.position, targetPoint, velocity * Time.deltaTime);
             if(transform.position == targetPoint){
                 inFlightParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);

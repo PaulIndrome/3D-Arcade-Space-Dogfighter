@@ -22,6 +22,7 @@ namespace Soulspace {
         public float DefaultSecondsToZeroHeat => defaultSecondsToZeroHeat;
         public float HeatIncreasePerProjectile => heatIncreasePerProjectile;
         public override float MaxWeaponTargetingRange => maxHitScanRange;
+        public override WeaponType WeaponType => WeaponType.Gatling;
 
         public AnimationCurve OverheatFiringFrequency=> overheatFiringFrequency;
         public override ProjectileBase ProjectileBase => projectilePrefab as HitScanProjectileBase;
