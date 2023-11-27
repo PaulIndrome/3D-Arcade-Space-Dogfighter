@@ -12,7 +12,7 @@ namespace Soulspace{
 
         public abstract bool CanFire { get; }
         public abstract WeaponType WeaponType { get; }
-        public abstract WeaponSettingsBase WeaponSettings { get; }
+        public abstract WeaponSettingsBase WeaponSettings { get; protected set; }
         public Transform[] FiringOrigins => firingOrigins;
         public LayerMask ProjectileHitLayers => projectileHitLayers;
 
@@ -21,6 +21,10 @@ namespace Soulspace{
         protected Transform[] firingOrigins;
         protected WeaponObject[] spawnedWeaponObjects;
         protected LayerMask projectileHitLayers;
+
+        public WeaponBase(WeaponSettingsBase weaponSettingsBase){
+            WeaponSettings = weaponSettingsBase;
+        }
 
         public void DebugWeaponType(){
             Debug.Log($"WeaponType: {WeaponType}");

@@ -33,7 +33,7 @@ public class BeamWeapon : WeaponBase
     public override bool CanFire => CheckFire();
     public override WeaponType WeaponType => WeaponType.Energy;
     // TODO: create EnergyWeaponSettingsBase
-    public override WeaponSettingsBase WeaponSettings => throw new System.NotImplementedException();
+    public override WeaponSettingsBase WeaponSettings { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
 
     Ray aimRay;
     RaycastHit beamWeaponHit;
@@ -44,7 +44,12 @@ public class BeamWeapon : WeaponBase
 
     private bool showImpactVisuals = true;
 
-    private bool ShowImpactVisuals {
+        public BeamWeapon(WeaponSettingsBase weaponSettingsBase) : base(weaponSettingsBase)
+        {
+            WeaponSettings = weaponSettingsBase;
+        }
+
+        private bool ShowImpactVisuals {
         get => showImpactVisuals;
         set {
             if(value != showImpactVisuals){
@@ -54,10 +59,11 @@ public class BeamWeapon : WeaponBase
         }
     }
 
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    protected void Awake()
+
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// </summary>
+        protected void Awake()
     {
 
         // if(!beamWeaponRenderer){

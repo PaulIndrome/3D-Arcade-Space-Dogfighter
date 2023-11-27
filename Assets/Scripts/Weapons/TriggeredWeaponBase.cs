@@ -7,12 +7,20 @@ namespace Soulspace {
 public class TriggeredWeaponBase : WeaponBase 
 {
     public override WeaponType WeaponType => WeaponType.Triggered;
-    public override WeaponSettingsBase WeaponSettings => throw new System.NotImplementedException();
-
     public override bool CanFire => CheckFire();
+
+    public override WeaponSettingsBase WeaponSettings { 
+        get => throw new System.NotImplementedException(); 
+        protected set => throw new System.NotImplementedException(); 
+    }
 
     [Header("Internals")]
     [ReadOnly, SerializeField, Foldout("Internals")] private Queue<ProjectileBase> projectilePool;
+
+    public TriggeredWeaponBase(WeaponSettingsBase weaponSettingsBase) : base(weaponSettingsBase)
+    {
+        WeaponSettings = weaponSettingsBase;
+    }
 
     public void FireTriggeredWeapon(){
         if(CheckFire()){
