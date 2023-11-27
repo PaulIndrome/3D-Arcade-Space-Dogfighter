@@ -27,8 +27,10 @@ public class EnemyMovementPolarith : MonoBehaviour
     [Header("Debug Settings")]
     [SerializeField] private bool drawGizmos = false;
     
-    [Foldout("Polarith Settings"), SerializeField] private float maxSpeed, velocityLerpingRate, flyByDelay = 3f;
+    [Foldout("Polarith Settings"), SerializeField] private float maxSpeed, velocityLerpingRate;
+    [Foldout("Polarith Settings"), SerializeField, MinMaxSlider(1, 20)] private Vector2 flyByDelay;
     [Foldout("Polarith Settings"), SerializeField] private GameObject pursueTarget;
+    [Foldout("Polarith Settings"), SerializeField] private string[] pursueTargetEnvironments;
     [Foldout("Polarith Settings"), SerializeField] private AIMContext basicSteering;
     [Foldout("Polarith Settings"), SerializeField] private AIMContext targetFlybyDetection;
     [Foldout("Polarith Settings"), SerializeField] private AIMSeekBounds seekCollisionBounds;
@@ -37,7 +39,7 @@ public class EnemyMovementPolarith : MonoBehaviour
     
 
     [Header("Polarith behaviour sets")]
-    [SerializeField] private List<AIMSteeringBehaviour> dynamicTargetBehaviours;
+    [SerializeField] private List<AIMPerceptBehaviour<SteeringPercept>> dynamicTargetBehaviours;
     [SerializeField] private List<PolarithBehaviourSet> behaviourSets;
 
     [Foldout("Internals"), ReadOnly, SerializeField] private PolarithBehaviourType currentBehaviour, nextBehaviour;
@@ -115,7 +117,7 @@ public class EnemyMovementPolarith : MonoBehaviour
         // presumably, we're close enough to a target that we can initiate a flyby
         if(targetFlybyDetection.DecidedValues[0] > 0.1f){
             nextBehaviour = PolarithBehaviourType.FlyForwardAvoidCollision;
-            StartCoroutine(FlybyDelay(flyByDelay));
+            StartCoroutine(FlybyDelay(Random.Range(flyByDelay.x, flyByDelay.y)));
         }
 
         // Debug.DrawRay(transform.position, desiredVelocity, Color.white, 0.2f);
@@ -129,9 +131,10 @@ public class EnemyMovementPolarith : MonoBehaviour
         }
     }
 
-    public void SetTargetEnvironment(in List<string> environments){
+    public void SetTargetEnvironment(params string[] environments){
+        List<string> environmentList = new List<string>(environments);
         foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
-            steeringBehaviour.FilteredEnvironments = environments;
+            steeringBehaviour.FilteredEnvironments = environmentList;
         }
     }
 
@@ -147,10 +150,6 @@ public class EnemyMovementPolarith : MonoBehaviour
         foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
             steeringBehaviour.GameObjects = targetGameObjects;
         }
-    }
-
-    public void PursueTarget(GameObject target){
-
     }
 
     void FlyForwardAvoidCollision(){
@@ -191,8 +190,15 @@ public class EnemyMovementPolarith : MonoBehaviour
         } 
     }
 
+    [ContextMenu("Activate Pursue Set Target Environments")]
+    public void ActivatePursueSetTargetEnvironments(){
+        SetTargetEnvironment(pursueTargetEnvironments);
+        nextBehaviour = PolarithBehaviourType.PursueTarget;
+    }
+
     [ContextMenu("Activate Pursue Set Target")]
     public void ActivatePursueSetTarget(){
+        SetTarget(pursueTarget);
         nextBehaviour = PolarithBehaviourType.PursueTarget;
     }
 
