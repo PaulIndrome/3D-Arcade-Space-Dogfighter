@@ -8,8 +8,10 @@ namespace Soulspace {
     {
         public delegate void GatlingWeaponFloatDelegateBase(float value);
         public static event GatlingWeaponFloatDelegateBase OnGatlingWeaponHeatChanged;
-
-        [Space, SerializeField] private HitScanWeaponSettings weaponSettings;
+        
+        public override WeaponType WeaponType => WeaponType.Gatling;
+        public override WeaponSettingsBase WeaponSettings => weaponSettings;
+        public override bool CanFire => CheckFire();
 
         [Header("Internals")]
         [ReadOnly, SerializeField, Foldout("Internals")] private int firingPositionIndex = 0;
@@ -18,14 +20,11 @@ namespace Soulspace {
         [ReadOnly, SerializeField, Foldout("Internals")] private float currentFiringInterval = 0f;
         [ReadOnly, SerializeField, Foldout("Internals")] private Queue<HitScanProjectileBase> projectilePool;
         [ReadOnly, SerializeField, Foldout("Internals")] private Vector3 lerpedPointHitLocal, lastPointHitWorld;
+        [ReadOnly, SerializeField, Foldout("Internals")] private HitScanWeaponSettings weaponSettings;
 
-        public override WeaponType WeaponType => WeaponType.Gatling;
-        public override WeaponSettingsBase WeaponSettings => weaponSettings;
-
-        public override bool CanFire => CheckFire();
-
-        public GatlingWeaponBase(HitScanWeaponSettings hitScanWeaponSettings){
-            weaponSettings = hitScanWeaponSettings;
+        public GatlingWeaponBase(WeaponSettingsBase weaponSettingsBase)
+        {
+            weaponSettings = weaponSettingsBase as HitScanWeaponSettings;
         }
 
         public override bool CheckFire()

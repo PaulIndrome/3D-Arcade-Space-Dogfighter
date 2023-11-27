@@ -19,6 +19,7 @@ public abstract class WeaponSettingsBase : ScriptableObject {
     public abstract WeaponType WeaponType { get; }
     public virtual float MaxProjectileRange => projectileExitVelocity * projectileTimeoutDelay;
     public abstract ProjectileBase ProjectileBase { get; }
+    public abstract WeaponBase WeaponBase { get; }
 
     [Header("Game Settings")]
     [SerializeField] protected int projectilePoolSize = 50;

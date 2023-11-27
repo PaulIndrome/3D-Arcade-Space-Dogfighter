@@ -32,6 +32,7 @@ public class BeamWeapon : WeaponBase
     
     public override bool CanFire => CheckFire();
     public override WeaponType WeaponType => WeaponType.Energy;
+    // TODO: create EnergyWeaponSettingsBase
     public override WeaponSettingsBase WeaponSettings => throw new System.NotImplementedException();
 
     Ray aimRay;
@@ -40,6 +41,18 @@ public class BeamWeapon : WeaponBase
     MeshRenderer[] impactRenderers;
     IDamageAble cachedHitDamageable;
     int cachedHitRigidbodyInstanceID;
+
+    private bool showImpactVisuals = true;
+
+    private bool ShowImpactVisuals {
+        get => showImpactVisuals;
+        set {
+            if(value != showImpactVisuals){
+                showImpactVisuals = value;
+                ToggleImpactVisuals(showImpactVisuals);
+            }
+        }
+    }
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -142,18 +155,6 @@ public class BeamWeapon : WeaponBase
             ShowImpactVisuals = false;
         }
         beamWeaponRenderer.SetPosition(1, lerpedPointHitLocal);
-    }
-
-    private bool showImpactVisuals = true;
-    private bool ShowImpactVisuals {
-        get => showImpactVisuals;
-
-        set {
-            if(value != showImpactVisuals){
-                showImpactVisuals = value;
-                ToggleImpactVisuals(showImpactVisuals);
-            }
-        }
     }
 
     private void ToggleImpactVisuals(bool onOff){

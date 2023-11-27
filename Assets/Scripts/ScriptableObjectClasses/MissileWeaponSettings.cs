@@ -15,6 +15,7 @@ public class MissileWeaponSettings : WeaponSettingsBase
     public override ProjectileBase ProjectileBase => projectilePrefab as MissileProjectileBase;
     public override float MaxWeaponTargetingRange => ProjectileTimeoutDelay * ProjectileExitVelocity + proximityTriggerRange;
     public override WeaponType WeaponType => WeaponType.Rocket;
+    public override WeaponBase WeaponBase => throw new System.NotImplementedException();
 #endregion
 
     [Header("Missile Projectile Settings")]
