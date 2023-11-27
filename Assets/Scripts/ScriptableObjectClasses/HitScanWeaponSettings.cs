@@ -1,5 +1,8 @@
 using UnityEngine;
 using NaughtyAttributes;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Soulspace {
 
@@ -27,12 +30,15 @@ namespace Soulspace {
         public override WeaponBase WeaponBase => new GatlingWeaponBase(this);
         #endregion
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             if(projectilePrefab is not HitScanProjectileBase){
+                EditorUtility.DisplayDialog("Incompatible Projectile Class", "Please assign a prefab of projectile type " + typeof(HitScanProjectileBase), "OK");
                 projectilePrefab = null;
             }
         }
     }
+#endif
 
 }

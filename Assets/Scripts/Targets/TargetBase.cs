@@ -79,5 +79,10 @@ public class TargetBase : Destructible
     private void OnNewTargetLocked(in int TargetInstanceID){
         isLockedTarget = TargetInstanceID == GetInstanceID();
     }
+
+    [Button]
+    private void RestoreToFull(){
+        HealDamageTo(99999, HealFlags.All);
+    }
 }
 }

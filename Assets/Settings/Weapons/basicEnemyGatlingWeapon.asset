@@ -13,8 +13,18 @@ MonoBehaviour:
   m_Name: basicEnemyGatlingWeapon
   m_EditorClassIdentifier: 
   projectilePoolSize: 30
-  projectileBase: {fileID: 6397099895318024980, guid: 844bac86d82fcc843bd8fe200bd7250e, type: 3}
+  targetLockRadius: 1
+  weaponDamage:
+    damage: 10
+    shieldModifier: 0.5
+    armorModifier: 0.5
+    hullModifier: 1
+  projectileExitVelocity: 500
+  projectileTimeoutDelay: 1
+  projectilePrefab: {fileID: 2783015623784166202, guid: 876d34e581cbaf34999ea505a7df242d, type: 3}
+  weaponObjectPrefab: {fileID: 1778829322700227719, guid: 9b800c56c8ebc124db6bd6c158611872, type: 3}
   generatesHeat: 0
+  maxWeaponTargetingRange: 100
   defaultSecondsToZeroHeat: 5
   heatIncreasePerProjectile: 0.02
   overheatFiringFrequency:
@@ -41,10 +51,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  weaponDamage:
-    damage: 10
-    shieldModifier: 0.5
-    armorModifier: 0.5
-    hullModifier: 1
-  projectileExitVelocity: 500
-  projectileTimeoutDelay: 1

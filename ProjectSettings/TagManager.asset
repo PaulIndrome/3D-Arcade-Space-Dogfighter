@@ -22,22 +22,22 @@ TagManager:
   - 
   - WorldSpaceHUD
   - ScreenSpaceHUD
-  - TargetLockGeo
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - EnemyShips
   - TargetingCollision
-  - EnemyMutualPerception
   - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - EnemyShipsCollision
+  - 
+  - EnemyMutualPerception
+  - FriendlyMutualPerception
   m_SortingLayers:
   - name: UI
     uniqueID: 2534899631
