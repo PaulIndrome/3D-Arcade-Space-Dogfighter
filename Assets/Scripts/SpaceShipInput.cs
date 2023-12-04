@@ -23,7 +23,6 @@ public class SpaceShipInput : MonoBehaviour
     [Foldout("Settings"), Space, SerializeField] private float strafeExecuteTime;
     [Foldout("Settings"), SerializeField] private float strafeCooldownTime;
     [Foldout("Settings"), SerializeField] private float strafeSpeed = 2f;
-    
 
     // [Header("Scene references")]
     [Foldout("Scene references"), SerializeField] private Renderer impulseFlare;
@@ -31,8 +30,6 @@ public class SpaceShipInput : MonoBehaviour
     [Foldout("Scene references"), SerializeField] private Light impulseLight, flareLight_R, flareLight_L;
     [Foldout("Scene references"), SerializeField] private CinemachineVirtualCamera vcam_drift;
     [Foldout("Scene references"), SerializeField] private ParticleSystem exitDriftThrust_ps;
-
-    public Transform ReticlePos => reticlePos;
 
     // [Header("Internals")]
     [BoxGroup("State bools"), ReadOnly, SerializeField] private bool isBoosting = false;
@@ -49,7 +46,6 @@ public class SpaceShipInput : MonoBehaviour
     [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Vector3 lerpedCorrectionVelocity;
     [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Vector3 driftEnterVelocity;
     [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private PlayerAim playerAim;
-    [Foldout("ReadOnly Internals"), ReadOnly, SerializeField] private Transform reticlePos;
 
     private int emissColorID, vcam_driftDefaultPrio;
     private float defaultImpulseLightIntensity, defaultBoostLightIntensity;
@@ -60,11 +56,9 @@ public class SpaceShipInput : MonoBehaviour
     MainControls mainControls;
     Camera mainCam;
     
-
     void Awake()
     {
         playerAim = FindObjectOfType<PlayerAim>();
-        reticlePos = playerAim?.ReticlePos;
 
         mainControls = new MainControls();
         rb = GetComponent<Rigidbody>();
@@ -91,14 +85,12 @@ public class SpaceShipInput : MonoBehaviour
         emissColorID = Shader.PropertyToID("_EmissionColor");
 
         Debug.Log("SpaceShipInput start");
-        // if(weaponMount_R != null) weaponMount_R.MountWeapon(this);
-        // if(weaponMount_L != null) weaponMount_L.MountWeapon(this);
     }
 
     void Update()
     {
         if(isDrifting){
-            // TODO: check if speed should really decline on drift when drifting from boost
+            // after entering drift from boost, slowly decrease towards normal max speed
             currentSpeed = Mathf.SmoothStep(currentSpeed, Mathf.Min(driftEnterSpeed, maxSpeed), boostDeclineRateOnDrift * Time.deltaTime);
             aggregateVelocity = driftEnterVelocity.normalized * currentSpeed;
         } else {
@@ -137,8 +129,6 @@ public class SpaceShipInput : MonoBehaviour
 
         impulseLight.intensity = Mathf.SmoothStep(0f, defaultImpulseLightIntensity, currentSpeedFactor);
         flareLight_L.intensity = flareLight_R.intensity = Mathf.SmoothStep(0f, defaultBoostLightIntensity, boostAxisRaw);
-
-        vcam_drift.Priority = isDrifting ? vcam_driftDefaultPrio + 3 : vcam_driftDefaultPrio;
     }
 
     void ToggleControls(bool onOff){
@@ -188,15 +178,13 @@ public class SpaceShipInput : MonoBehaviour
 
     void OnDriftPerformed(InputAction.CallbackContext context){
         isDrifting = true;
-        driftEnterSpeedFactor = currentSpeedFactor;
         
+        driftEnterSpeedFactor = currentSpeedFactor;
         driftEnterVelocity = rb.velocity;
-
         driftEnterSpeed = driftEnterVelocity.magnitude;
         
         vcam_drift.Priority += 3;
 
-        OnBoostCanceled(new InputAction.CallbackContext());
         OnShipStateEntered?.Invoke(ShipState.Drift);
     }
 
