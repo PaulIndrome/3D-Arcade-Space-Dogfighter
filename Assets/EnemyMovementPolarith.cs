@@ -125,7 +125,7 @@ public class EnemyMovementPolarith : MonoBehaviour
     }
 
     public void ClearAllTargets(){
-        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+        foreach(AIMPerceptBehaviour<SteeringPercept> steeringBehaviour in dynamicTargetBehaviours){
             steeringBehaviour.FilteredEnvironments = null;
             steeringBehaviour.GameObjects = null;
         }
@@ -133,7 +133,7 @@ public class EnemyMovementPolarith : MonoBehaviour
 
     public void SetTargetEnvironment(params string[] environments){
         List<string> environmentList = new List<string>(environments);
-        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+        foreach(AIMPerceptBehaviour<SteeringPercept> steeringBehaviour in dynamicTargetBehaviours){
             steeringBehaviour.FilteredEnvironments = environmentList;
         }
     }
@@ -147,7 +147,7 @@ public class EnemyMovementPolarith : MonoBehaviour
 
         List<GameObject> targetGameObjects = new List<GameObject>(){target};
 
-        foreach(AIMSteeringBehaviour steeringBehaviour in dynamicTargetBehaviours){
+        foreach(AIMPerceptBehaviour<SteeringPercept> steeringBehaviour in dynamicTargetBehaviours){
             steeringBehaviour.GameObjects = targetGameObjects;
         }
     }

@@ -368,8 +368,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  maxSpeed: 80
-  velocityLerpingRate: 6
+  maxSpeed: 60
+  velocityLerpingRate: 4
   flyByDelay: {x: 2, y: 4}
   pursueTarget: {fileID: 0}
   pursueTargetEnvironments: []
@@ -577,15 +577,15 @@ GameObject:
   - component: {fileID: 4123843617507670322}
   - component: {fileID: 6489518179551732588}
   - component: {fileID: 5793015576672213038}
-  - component: {fileID: 5208271293124337858}
   - component: {fileID: 8610415258690661031}
   - component: {fileID: 4436566865607532814}
   - component: {fileID: 7750094617909611322}
-  - component: {fileID: 8636118596130447807}
   - component: {fileID: 7919407855919925089}
+  - component: {fileID: 5208271293124337858}
+  - component: {fileID: 8636118596130447807}
   - component: {fileID: 5271569445784665400}
   - component: {fileID: 8531584464906188796}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: PursueTarget_avoidCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413169861649050818}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 875132140, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
   m_Name: 
@@ -745,69 +745,6 @@ MonoBehaviour:
     RadiusMapping: 2
     MaxPredictionTime: 1
     ForEachReceptor: 0
---- !u!114 &5208271293124337858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413169861649050818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -422717626, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Order: 0
-  Label: Avoid Collision Bounds
-  initialized: 1
-  tabState:
-    tab0: 0
-    tab1: 0
-    tab2: 0
-    tab3: 0
-    tab4: 0
-  advancedInspector: 0
-  FilteredEnvironments:
-  - AvoidDynamic
-  - AvoidStatic
-  GameObjects: []
-  velocityGizmo:
-    Enabled: 0
-    Color: {r: 0.5, g: 0.5, b: 1, a: 1}
-    DirectionScale: 1
-    PointSize: 0.2
-  steeringFoldout: 1
-  innerRadiusGizmo:
-    Enabled: 0
-    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
-  outerRadiusGizmo:
-    Enabled: 1
-    Color: {r: 0.7264151, g: 0.028154625, b: 0, a: 1}
-  innerCircleGizmo:
-    Enabled: 0
-    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
-  outerCircleGizmo:
-    Enabled: 0
-    Color: {r: 0.7264151, g: 0.028154625, b: 0, a: 1}
-  radiusSteeringFoldout: 1
-  SeekBounds:
-    TargetObjective: 1
-    MagnitudeMultiplier: 5
-    SensitivityOffset: 20
-    ValueWriting: 0
-    LayerBlending: 0
-    LayerNormalization: 0
-    ValueMapping: 4
-    UseSignificance: 1
-    UseSensorProjection: 1
-    VectorProjection: 0
-    PresetVelocity: 0
-    Prediction: 2
-    PredictionMagnitude: 20
-    InnerRadius: 0
-    OuterRadius: 30
-    RadiusMapping: 4
-    BoundsType: 0
 --- !u!114 &8610415258690661031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,7 +752,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413169861649050818}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -561398845, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
   m_Name: 
@@ -832,7 +769,7 @@ MonoBehaviour:
   advancedInspector: 0
   PlanarInterpolation:
     TargetObjective: 0
-    Constraint: 0
+    Constraint: 1
 --- !u!114 &4436566865607532814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,7 +777,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413169861649050818}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -164103036, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
   m_Name: 
@@ -907,57 +844,6 @@ MonoBehaviour:
   Retention:
     TargetObjectives: 00000000
     Memory: 0.75
---- !u!114 &8636118596130447807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413169861649050818}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -164103036, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Order: 1050
-  Label: Avoid Collision Reduction
-  initialized: 1
-  tabState:
-    tab0: 0
-    tab1: 0
-    tab2: 0
-    tab3: 0
-    tab4: 0
-  advancedInspector: 0
-  FilteredEnvironments:
-  - AvoidDynamic
-  - AvoidStatic
-  GameObjects: []
-  Reduction:
-    ValueWriting: 1
-    UseSensorProjection: 1
-    VectorProjection: 0
-    DistanceMapping: 4
-    TargetObjective: 1
-    MagnitudeMultiplier: 1
-    MaxDistance: 50
-    MinMagnitude: 0
-    AngleWeight: 1
-    UsePresetVelocity: 0
-    PresetVelocity: 1
-    Prediction: 1
-    PredictionMagnitude: 0
-  velocityGizmo:
-    Enabled: 0
-    Color: {r: 0.5, g: 0.5, b: 1, a: 1}
-    DirectionScale: 1
-    PointSize: 0.2
-  maxDistanceGizmo:
-    Enabled: 1
-    Color: {r: 0.5188679, g: 0.3783412, b: 0, a: 0.70980394}
-  radiusGizmo:
-    Enabled: 0
-    Color: {r: 0.5188679, g: 0.3783412, b: 0, a: 0.70980394}
 --- !u!114 &7919407855919925089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,6 +905,120 @@ MonoBehaviour:
     OuterRadius: 50
     RadiusMapping: 4
     ForEachReceptor: 0
+--- !u!114 &5208271293124337858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413169861649050818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -422717626, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 0
+  Label: Avoid Collision Bounds
+  initialized: 1
+  tabState:
+    tab0: 0
+    tab1: 0
+    tab2: 0
+    tab3: 0
+    tab4: 0
+  advancedInspector: 0
+  FilteredEnvironments:
+  - AvoidDynamic
+  - AvoidStatic
+  GameObjects: []
+  velocityGizmo:
+    Enabled: 0
+    Color: {r: 0.5, g: 0.5, b: 1, a: 1}
+    DirectionScale: 1
+    PointSize: 0.2
+  steeringFoldout: 1
+  innerRadiusGizmo:
+    Enabled: 0
+    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
+  outerRadiusGizmo:
+    Enabled: 1
+    Color: {r: 0.7264151, g: 0.028154625, b: 0, a: 1}
+  innerCircleGizmo:
+    Enabled: 0
+    Color: {r: 0.59607846, g: 1, b: 0.5686275, a: 1}
+  outerCircleGizmo:
+    Enabled: 0
+    Color: {r: 0.7264151, g: 0.028154625, b: 0, a: 1}
+  radiusSteeringFoldout: 1
+  SeekBounds:
+    TargetObjective: 1
+    MagnitudeMultiplier: 5
+    SensitivityOffset: 20
+    ValueWriting: 0
+    LayerBlending: 0
+    LayerNormalization: 0
+    ValueMapping: 4
+    UseSignificance: 1
+    UseSensorProjection: 1
+    VectorProjection: 0
+    PresetVelocity: 0
+    Prediction: 2
+    PredictionMagnitude: 20
+    InnerRadius: 0
+    OuterRadius: 30
+    RadiusMapping: 4
+    BoundsType: 0
+--- !u!114 &8636118596130447807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413169861649050818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -164103036, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1050
+  Label: Avoid Collision Reduction
+  initialized: 1
+  tabState:
+    tab0: 0
+    tab1: 0
+    tab2: 0
+    tab3: 0
+    tab4: 0
+  advancedInspector: 0
+  FilteredEnvironments:
+  - AvoidDynamic
+  - AvoidStatic
+  GameObjects: []
+  Reduction:
+    ValueWriting: 1
+    UseSensorProjection: 1
+    VectorProjection: 0
+    DistanceMapping: 4
+    TargetObjective: 1
+    MagnitudeMultiplier: 1
+    MaxDistance: 50
+    MinMagnitude: 0
+    AngleWeight: 1
+    UsePresetVelocity: 0
+    PresetVelocity: 1
+    Prediction: 1
+    PredictionMagnitude: 0
+  velocityGizmo:
+    Enabled: 0
+    Color: {r: 0.5, g: 0.5, b: 1, a: 1}
+    DirectionScale: 1
+    PointSize: 0.2
+  maxDistanceGizmo:
+    Enabled: 1
+    Color: {r: 0.5188679, g: 0.3783412, b: 0, a: 0.70980394}
+  radiusGizmo:
+    Enabled: 0
+    Color: {r: 0.5188679, g: 0.3783412, b: 0, a: 0.70980394}
 --- !u!114 &5271569445784665400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,7 +1582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9051332275784066702}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: MountRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1863,7 +1863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2334858003801293181}
   - component: {fileID: 1552922438452152466}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: TrailRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2579,7 +2579,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654486781781323421}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: Weapons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2611,7 +2611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 926007104770782926}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: FiringOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2642,7 +2642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5063664286986668929}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: WeaponMounts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2925,6 +2925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6244480034719662655}
   - component: {fileID: 5784967590617727781}
+  - component: {fileID: 1159158327664970293}
   - component: {fileID: 3719518131301376958}
   - component: {fileID: 371475185055938268}
   m_Layer: 0
@@ -3000,6 +3001,25 @@ MonoBehaviour:
     tab3: 0
     tab4: 0
   objectiveFoldout: 1
+--- !u!114 &1159158327664970293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6041841683710885310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 336943168, guid: b26ce4b80a42c6441af375612ff69ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  environmentFoldout: 0
+  SteeringPerceiver: {fileID: 0}
+  ObjectTag: Untagged
+  Range: -1
+  rangeGizmo:
+    Enabled: 0
+    Color: {r: 0.2627451, g: 0.79607844, b: 0.24705882, a: 1}
 --- !u!114 &3719518131301376958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3679,7 +3699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5093114662560265052}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4010,7 +4030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5738386209832488624}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: MountLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4041,7 +4061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7845227104811177122}
-  m_Layer: 30
+  m_Layer: 0
   m_Name: AI-Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
