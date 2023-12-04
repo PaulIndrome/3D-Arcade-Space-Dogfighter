@@ -11,7 +11,7 @@ public class PlayerTargeting : TargetingBase
 
     public delegate void TargetLockedDelegate(in int InstanceID);
     public static event TargetLockedDelegate OnPlayerNewTargetLocked;
-    public static event TargetLockChangedDelegate OnPlayerHasTargetLockChanged;
+    public static event TargetLockChangedDelegate OnPlayerHasTargetLockChanged, OnCanTargetLockChanged;
 
     public static TargetBase PlayerLockedTarget => lastTargetFound;
 
@@ -30,6 +30,7 @@ public class PlayerTargeting : TargetingBase
     [ReadOnly, SerializeField] private Ray aimRay;
     [ReadOnly, SerializeField] private RaycastHit aimRayHit;
 
+    private bool canTargetLock = false;
     private int lastHitRigidbodyID;
     private Camera mainCam;
     private QueryParameters queryParameters;
@@ -44,7 +45,7 @@ public class PlayerTargeting : TargetingBase
     }
 
     void Update(){
-        if(currentTargetLockRadius < 0 || currentMaxWeaponRange < 0){
+        if(currentTargetLockRadius <= 0 || currentMaxWeaponRange <= 0){
             return;
         }
         
@@ -104,9 +105,15 @@ public class PlayerTargeting : TargetingBase
     public void SetWeaponRanges(in WeaponBase weaponBase){
         if(weaponBase == null){
             currentTargetLockRadius = currentMaxWeaponRange = 0;
+            canTargetLock = false;
         } else {
             currentTargetLockRadius = weaponBase.WeaponSettings.TargetLockRadius;
             currentMaxWeaponRange = weaponBase.WeaponSettings.MaxWeaponTargetingRange;       
+            canTargetLock = true;
+        }
+        
+        if(OnCanTargetLockChanged != null){
+            OnCanTargetLockChanged.Invoke(canTargetLock);
         }
     }
 

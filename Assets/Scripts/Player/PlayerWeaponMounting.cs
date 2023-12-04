@@ -68,6 +68,7 @@ namespace Soulspace
             }
 
             OnPlayerAssignedWeaponChanged(WeaponType.Gatling, playerAssignedWeapons.GatlingWeaponSettings);
+            MountWeapon(WeaponType.Gatling);
 
             // TODO: add other weapon types to initialize on Start()
         }
