@@ -70,6 +70,8 @@ namespace Soulspace{
                     continue;
                 }
                 WeaponObject weaponObject = Object.Instantiate(WeaponSettings.WeaponObjectPrefab, mountPositions[i].position, mountPositions[i].rotation, mountPositions[i]);
+                // weaponObject.gameObject.layer = mountPositions[i].gameObject.layer;
+                weaponObject.SetLayerOfAllChildren(mountPositions[i].gameObject.layer);
                 spawnedWeaponObjects[i] = weaponObject;
                 firingOrigins[i] = weaponObject.FiringOrigin;
                 weaponObject.gameObject.SetActive(false);
