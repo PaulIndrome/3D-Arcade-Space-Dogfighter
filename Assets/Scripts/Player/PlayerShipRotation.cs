@@ -109,7 +109,7 @@ namespace Soulspace
         }
 
         private void OnValidate() {
-            if(followMainCamRotation && gameObject.scene != null){
+            if(followMainCamRotation && gameObject.scene.IsValid()){
                 mainCamTransform = Camera.main.transform;
             }
         }
