@@ -12174,7 +12174,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5205044314283448481}
+  m_Father: {fileID: 3974886660202288149}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &367820005760507178
 VisualEffect:
@@ -12197,12 +12197,12 @@ VisualEffect:
       - m_Value: 100
         m_Name: Radius
         m_Overridden: 1
-      - m_Value: 15
+      - m_Value: 30
         m_Name: SpawnRateConstant
-        m_Overridden: 0
-      - m_Value: 15.42
+        m_Overridden: 1
+      - m_Value: 40
         m_Name: SpawnRatePerDistanceUnit
-        m_Overridden: 0
+        m_Overridden: 1
       - m_Value: 5.105399
         m_Name: PositionSphere_radius
         m_Overridden: 0
@@ -12419,6 +12419,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3793031933334240522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3974886660202288149}
+  m_Layer: 6
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3974886660202288149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3793031933334240522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9042108793073727341}
+  m_Father: {fileID: 6756916483649330852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3815276434343961859
 GameObject:
   m_ObjectHideFlags: 0
@@ -12547,6 +12579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3396020284939570116}
   - component: {fileID: 8146701259475227134}
+  - component: {fileID: 608844033313654201}
   m_Layer: 6
   m_Name: Ship
   m_TagString: Untagged
@@ -12583,19 +12616,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followMainCamRotation: 1
+  zeroAdditionalRotation: 0
   mainCamTransform: {fileID: 0}
   transformToFollow: {fileID: 5205044314283448481}
-  defaultRotationSpeed: 2.5
-  resetOrientationSpeed: 10
+  defaultOrientToCameraSpeed: 7.5
+  additionalRotationLerpSpeed: 4
+  resetOrientationSpeed: 50
   shipRotationType: 2
   additionalRotationFactorX:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: -1
-      value: -33
-      inSlope: 33
-      outSlope: 33
+      value: -18
+      inSlope: 18
+      outSlope: 18
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -12603,17 +12638,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 33
-      outSlope: 33
+      inSlope: 18
+      outSlope: 18
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 33
-      inSlope: 33
-      outSlope: 33
+      value: 18
+      inSlope: 18
+      outSlope: 18
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -12659,7 +12694,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: -1
-      value: 40
+      value: 25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -12677,7 +12712,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: -40
+      value: -25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -12689,6 +12724,27 @@ MonoBehaviour:
     m_RotationOrder: 4
   useFakeInput: 0
   fakeTurnInput: {x: 1, y: 0}
+--- !u!95 &608844033313654201
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4176483464434737108}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2fb0c3b4b6a181d45a5ad92084e371d6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4238831890915436931
 GameObject:
   m_ObjectHideFlags: 0
@@ -13027,7 +13083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4993669672514198151}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.06975647, y: 0, z: 0, w: 0.9975641}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14086,7 +14142,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7666754980266401192}
-  - {fileID: 9042108793073727341}
   m_Father: {fileID: 6756916483649330852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8883518236000096412
@@ -14103,8 +14158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resetOrientationSpeed: 3
   resetOrientationThresholdZ: 1
-  turnSpeedFreeFlight: {x: 50, y: 50}
-  turnSpeedDrift: {x: 100, y: 100}
+  turnSpeedFreeFlight: {x: 75, y: 75}
+  turnSpeedDrift: {x: 125, y: 125}
   useFakeInput: 0
   fakeTurnInput: {x: 0, y: 0}
   reticlePos: {fileID: 7666754980266401192}
@@ -14232,6 +14287,7 @@ Transform:
   m_Children:
   - {fileID: 5205044314283448481}
   - {fileID: 3396020284939570116}
+  - {fileID: 3974886660202288149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1909307075497377365
@@ -14270,88 +14326,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 6676821154424380218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f740f8fecaa9b8f4696df30750269cc6, type: 3}
+  m_Script: {fileID: 11500000, guid: 982c2ab0aa91dce4180199bf1eedce86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 20
-  speedChangeRate: 1
-  speedChangeRateOnBoost: 2
-  impulseFlareColorGradient:
-    serializedVersion: 2
-    key0: {r: 0, g: 0.005882353, b: 0.026960785, a: 1}
-    key1: {r: 0, g: 0.23656055, b: 0.5019608, a: 1}
-    key2: {r: 0, g: 1, b: 1, a: 0}
-    key3: {r: 0.23292929, g: 2.1185474, b: 2.1185474, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 8033
-    ctime2: 32768
-    ctime3: 65535
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 4
-    m_NumAlphaKeys: 2
+  maxSpeed: 40
+  speedChangeRate: 1.25
+  speedChangeRateOnBoost: 2.5
   maxBoostIncrease: 20
-  boostIncreaseRate: 40
-  boostDeclineRate: 15
-  boostFlareColorGradient:
-    serializedVersion: 2
-    key0: {r: 0.0627451, g: 0, b: 0, a: 1}
-    key1: {r: 0.5, g: 0, b: 0, a: 1}
-    key2: {r: 1, g: 1, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 6554
-    ctime2: 65535
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 3
-    m_NumAlphaKeys: 2
+  boostChangeRate: 10
   boostDeclineRateOnDrift: 10
   exitDriftCorrectionTime: 0.75
-  strafeExecuteTime: 0.25
+  strafeExecuteTime: 0.6
   strafeCooldownTime: 1
-  strafeSpeed: 10
-  impulseFlare: {fileID: 684583249882322801}
-  boostFlare_R: {fileID: 2761765699429678341}
-  boostFlare_L: {fileID: 2617164536194445043}
-  impulseLight: {fileID: 7942601090116407894}
-  flareLight_R: {fileID: 3394640317408123576}
-  flareLight_L: {fileID: 7777022225032926657}
+  strafeAnimationFactor: 0.3
+  strafeSpeed: 24
+  strafeSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.16
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.3182893
+      outSlope: -2.3182893
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.044074535
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shipAnimationController: {fileID: 608844033313654201}
   vcam_drift: {fileID: 0}
-  exitDriftThrust_ps: {fileID: 4854647626129541361}
   isBoosting: 0
   isDrifting: 0
   isExitingDrift: 0
@@ -14366,11 +14389,12 @@ MonoBehaviour:
   currentBoostIncrease: 0
   currentSpeed: 0
   velocityDotAim: 0
-  strafeDirection: 0
   aggregateVelocity: {x: 0, y: 0, z: 0}
   lerpedCorrectionVelocity: {x: 0, y: 0, z: 0}
   driftEnterVelocity: {x: 0, y: 0, z: 0}
-  playerAim: {fileID: 8883518236000096412}
+  driftExitVelocity: {x: 0, y: 0, z: 0}
+  strafeEnterDirection: {x: 0, y: 0, z: 0}
+  strafeMovement: {x: 0, y: 0, z: 0}
 --- !u!114 &8502741571567852820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14388,7 +14412,7 @@ MonoBehaviour:
     m_Bits: 65536
   projectileHitLayers:
     serializedVersion: 2
-    m_Bits: 805310464
+    m_Bits: 268439552
   OnPlayerNewTargetLock_sevt: {fileID: 0}
   OnPlayerHasTargetLockChanged_sevt: {fileID: 11400000, guid: e730c1d3dc933a846a8293f9a3ab04fc, type: 2}
   hasTargetLock: 0
