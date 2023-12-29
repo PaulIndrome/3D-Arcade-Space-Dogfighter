@@ -36,7 +36,6 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private Vector2 turnInputRaw;
     [ReadOnly, SerializeField] private Vector3 resettingEulers;
 
-
     void Awake()
     {
         mainControls = new MainControls();
@@ -51,8 +50,8 @@ public class PlayerAim : MonoBehaviour
         mainControls.FreeFlight.ResetOrientation.performed += ResetOrientationPerformed;
         mainControls.Enable();
 
-        SpaceShipInput.OnShipStateEntered += OnShipStateEntered;
-        SpaceShipInput.OnShipStateExited += OnShipStateExited;
+        PlayerSpaceShipInput.OnShipStateEntered += OnShipStateEntered;
+        PlayerSpaceShipInput.OnShipStateExited += OnShipStateExited;
     }
 
     private void Update()
@@ -120,8 +119,8 @@ public class PlayerAim : MonoBehaviour
         mainControls.FreeFlight.Turn.canceled -= TurnInputCanceled;
         mainControls.FreeFlight.ResetOrientation.performed -= ResetOrientationPerformed;
 
-        SpaceShipInput.OnShipStateEntered -= OnShipStateEntered;
-        SpaceShipInput.OnShipStateExited -= OnShipStateExited;
+        PlayerSpaceShipInput.OnShipStateEntered -= OnShipStateEntered;
+        PlayerSpaceShipInput.OnShipStateExited -= OnShipStateExited;
     }
 
     /// <summary>

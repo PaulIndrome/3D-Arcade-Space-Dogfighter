@@ -31,14 +31,6 @@ namespace Soulspace
             }
         }
 
-        private void OnEnable() {
-            Debug.Log($"WeaponObject {gameObject.name} OnEnable", this);
-        }
-
-        private void OnDisable() {
-            Debug.Log($"WeaponObject {gameObject.name} OnDisable", this);
-        }
-
         public void TriggerMuzzleFire(){
             muzzleFireParticles.Emit(1);
         }

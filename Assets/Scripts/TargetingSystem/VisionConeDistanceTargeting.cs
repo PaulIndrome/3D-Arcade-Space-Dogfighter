@@ -66,6 +66,7 @@ public class VisionConeDistanceTargeting : TargetingBase
     }
 
     void OnDrawGizmosSelected(){
+        Gizmos.color = Color.red * 0.3f;
         Gizmos.DrawWireSphere(transform.position, maxShootingDistance);
 
         Gizmos.color = Color.white * 0.1f;

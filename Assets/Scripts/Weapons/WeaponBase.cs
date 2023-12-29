@@ -95,8 +95,6 @@ namespace Soulspace{
                 return;
             }
 
-            Debug.Log("Mounting weapon" + WeaponSettings.name);
-
             targetingSystem = targetingBase;
             projectileHitLayers = targetingSystem.ProjectileHitLayers;
 

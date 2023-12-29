@@ -18,9 +18,11 @@ namespace Soulspace
 
         [Header("Settings")]
         [SerializeField] private bool followMainCamRotation = true;
+        [SerializeField] private bool zeroAdditionalRotation = false;
         [SerializeField, ReadOnly, ShowIf("followMainCamRotation")] private Transform mainCamTransform;
         [SerializeField, HideIf("followMainCamRotation")] private Transform transformToFollow;
-        [SerializeField] private float defaultRotationSpeed = 10f;
+        [SerializeField] private float defaultOrientToCameraSpeed = 10f;
+        [SerializeField] private float additionalRotationLerpSpeed = 10f;
         [SerializeField] private float resetOrientationSpeed = 10f;
         [SerializeField] private ShipRotationType shipRotationType;
         [SerializeField] private AnimationCurve additionalRotationFactorX;
@@ -31,7 +33,9 @@ namespace Soulspace
         [SerializeField] private bool useFakeInput = false;
         [SerializeField, ShowIf("useFakeInput")] private Vector2 fakeTurnInput;
         
-        private float currentRotationSpeed;
+        private float CurrentRotationSpeed => isResettingOrientation ? resetOrientationSpeed : defaultOrientToCameraSpeed;
+
+        private bool isResettingOrientation = false;
         private Camera mainCam;
         private MainControls inputActions;
         private Vector2 turnInput = Vector2.zero;
@@ -43,8 +47,6 @@ namespace Soulspace
             if(inputActions == null){
                 inputActions = new MainControls();
             }
-
-            currentRotationSpeed = defaultRotationSpeed;
         }
 
         private void OnEnable() {
@@ -68,32 +70,43 @@ namespace Soulspace
                 followMainCamRotation = true;
             }
 
-            if(useFakeInput){
-                additionalInputRotation = Quaternion.Euler(-additionalRotationFactorY.Evaluate(-fakeTurnInput.y), additionalRotationFactorX.Evaluate(fakeTurnInput.x), additionalRotationFactorZ.Evaluate(fakeTurnInput.x));
-            } else {
-                additionalInputRotation = Quaternion.Euler(-additionalRotationFactorY.Evaluate(-turnInput.y), additionalRotationFactorX.Evaluate(turnInput.x), additionalRotationFactorZ.Evaluate(turnInput.x));
-            }
+            turnInput = useFakeInput ? fakeTurnInput : turnInput;
 
-            Quaternion targetRotation = followMainCamRotation ? mainCam.transform.rotation : transformToFollow.rotation;
+            Quaternion additionalInputRotation = zeroAdditionalRotation ? Quaternion.identity :
+                Quaternion.Euler(-additionalRotationFactorY.Evaluate(-turnInput.y), additionalRotationFactorX.Evaluate(turnInput.x), additionalRotationFactorZ.Evaluate(turnInput.x));
+            
+            Quaternion targetRotation = (followMainCamRotation ? mainCam.transform.rotation : transformToFollow.rotation) * additionalInputRotation;
 
+            Quaternion resultRotation;
+            
             switch(shipRotationType)
             {
                 case ShipRotationType.Lerp:
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation * additionalInputRotation, currentRotationSpeed * Time.deltaTime);
+                    // additionalInputRotation = Quaternion.Lerp(additionalInputRotation, newAdditionalRotation, Time.deltaTime * additionalRotationLerpSpeed);
+                    resultRotation = Quaternion.Lerp(transform.rotation, targetRotation/*  * additionalInputRotation */, CurrentRotationSpeed * Time.deltaTime);
                     break;
                 case ShipRotationType.LerpUnclamped:
-                    transform.rotation = Quaternion.LerpUnclamped(transform.rotation, targetRotation * additionalInputRotation, currentRotationSpeed * Time.deltaTime);
+                    // additionalInputRotation = Quaternion.LerpUnclamped(additionalInputRotation, newAdditionalRotation, Time.deltaTime * additionalRotationLerpSpeed);
+                    resultRotation = Quaternion.LerpUnclamped(transform.rotation, targetRotation/*  * additionalInputRotation */, CurrentRotationSpeed * Time.deltaTime);
                     break;
                 case ShipRotationType.Slerp:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation * additionalInputRotation, currentRotationSpeed * Time.deltaTime);
+                    // additionalInputRotation = Quaternion.Slerp(additionalInputRotation, newAdditionalRotation, Time.deltaTime * additionalRotationLerpSpeed);
+                    resultRotation = Quaternion.Slerp(transform.rotation, targetRotation/*  * additionalInputRotation */, CurrentRotationSpeed * Time.deltaTime);
                     break;
                 case ShipRotationType.SlerpUnclamped:
-                    transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, targetRotation * additionalInputRotation, currentRotationSpeed * Time.deltaTime);
+                    // additionalInputRotation = Quaternion.SlerpUnclamped(additionalInputRotation, newAdditionalRotation, Time.deltaTime * additionalRotationLerpSpeed);
+                    resultRotation = Quaternion.SlerpUnclamped(transform.rotation, targetRotation/*  * additionalInputRotation */, CurrentRotationSpeed * Time.deltaTime);
                     break;
                 case ShipRotationType.RotateTowards:
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation * additionalInputRotation, currentRotationSpeed * Time.deltaTime);
+                    // additionalInputRotation = Quaternion.RotateTowards(additionalInputRotation, newAdditionalRotation, Time.deltaTime * additionalRotationLerpSpeed);
+                    resultRotation = Quaternion.RotateTowards(transform.rotation, targetRotation/*  * additionalInputRotation */, CurrentRotationSpeed * Time.deltaTime);
+                    break;
+                default:
+                    resultRotation = Quaternion.identity;
                     break;
             }
+
+            transform.rotation = resultRotation;
         }
 
         private void OnTurnPerformed(InputAction.CallbackContext context){
@@ -105,7 +118,7 @@ namespace Soulspace
         }
 
         private void OnPlayerAimResettingOrientation(in bool isResettingOrientation){
-            currentRotationSpeed = isResettingOrientation ? resetOrientationSpeed : defaultRotationSpeed;
+            this.isResettingOrientation = isResettingOrientation;
         }
 
         private void OnValidate() {

@@ -75,9 +75,11 @@ public class TargetStatusIndicatorBase : MonoBehaviour
         enabled = false;
         subscribedToTarget = false;
         targetTransform = null;
-        target.OnDestructibleAttributeChanged -= UpdateStatusIndicatorBar;
-        target.OnEliminated -= ResetAllBarsToZero;
-        target.OnTargetBaseRemoved -= UnsubscribeStatusIndicatorFromTarget;
+        if(target != null){
+            target.OnDestructibleAttributeChanged -= UpdateStatusIndicatorBar;
+            target.OnEliminated -= ResetAllBarsToZero;
+            target.OnTargetBaseRemoved -= UnsubscribeStatusIndicatorFromTarget;
+        }
         // TODO: implement pooling of target status indicators if necessary
         Destroy(gameObject);
     }
