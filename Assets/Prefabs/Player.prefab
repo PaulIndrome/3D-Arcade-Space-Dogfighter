@@ -12694,7 +12694,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: -1
-      value: 25
+      value: 45
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -12712,7 +12712,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: -25
+      value: -45
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -14336,6 +14336,7 @@ MonoBehaviour:
   boostChangeRate: 10
   boostDeclineRateOnDrift: 10
   exitDriftCorrectionTime: 0.75
+  exitDriftVelocityKick: 2.5
   strafeExecuteTime: 0.6
   strafeCooldownTime: 1
   strafeAnimationFactor: 0.3

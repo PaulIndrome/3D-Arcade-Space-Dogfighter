@@ -242,22 +242,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1938994757055841285, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938994757055841285, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938994757055841285, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9985763
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938994757055841285, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.053342506
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938994757055841285, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
@@ -271,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2837536293136126893, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
       propertyPath: m_Name
-      value: PlayerVirtualCams
+      value: PlayerCamera-FreeFlight
       objectReference: {fileID: 0}
     - target: {fileID: 2841241696264664424, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
       propertyPath: m_VolumeTrigger
@@ -410,10 +394,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8005992698557949343, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
-      propertyPath: m_Cameras.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8005992698557949343, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
       propertyPath: m_VolumeLayerMask.m_Bits
       value: 0
       objectReference: {fileID: 0}
@@ -462,6 +442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5863013870856026695 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6312291226710441338, guid: 5bb10b711af0083438a421260e2e54ff, type: 3}
+  m_PrefabInstance: {fileID: 487619527520831293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4923042091170531996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -810,6 +795,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8146701259475227134, guid: 3b24a968ea0df844a8c9d0df2d04bc85, type: 3}
+      propertyPath: mainCamTransform
+      value: 
+      objectReference: {fileID: 5863013870856026695}
     - target: {fileID: 8883518236000096412, guid: 3b24a968ea0df844a8c9d0df2d04bc85, type: 3}
       propertyPath: vcam_freeFlightMix
       value: 
