@@ -65,5 +65,16 @@ crashlytics-build.properties
 .vscode/
 
 UserSettings/
+dev-impressions
 
 *.psd
+
+# SpaceGraphicsToolkit
+[Aa]ssets/Plugins/CW/
+Assets/VolumetricFogBundle.meta
+Assets/VolumetricFogBundle/Builtin.meta
+Assets/VolumetricFogBundle/Builtin/VolumetricAndDynamicFog_Builtin.unitypackage.meta
+Assets/VolumetricFogBundle/URP.meta
+Assets/VolumetricFogBundle/URP/VolumetricFog2_URP.unitypackage.meta
+UpgradeLog.htm
+UpgradeLog2.htm

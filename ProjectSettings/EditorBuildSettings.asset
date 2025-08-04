@@ -6,7 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c80cfc1609fa8654eb78cc3357fd2f0f
+  - enabled: 1
+    path: Assets/Scenes/FiringRange.unity
+    guid: c197591b754d4a944bf0cb1be34bee1e
+  - enabled: 1
+    path: Assets/Scenes/MovementGym.unity
+    guid: 6ab570b448a022949b6a33cf69b1a969
+  - enabled: 1
     path: Assets/Scenes/ShipControllerTest.unity
     guid: 7069a67e4c7ead6498c469d2112e183e
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 22abce7d0e988f94cb551c1f11589eb3, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 953d55a73f47f6b4ea14e0bf991db620, type: 2}

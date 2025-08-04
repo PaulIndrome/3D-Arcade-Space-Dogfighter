@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using UnityEditor.Experimental.SceneManagement;
+
 namespace ExtensionTools.Editor
 {
     class SetGroupWindow : EditorWindow
@@ -11,7 +11,7 @@ namespace ExtensionTools.Editor
 
         [MenuItem("GameObject/Set Color Group", true)]
         static bool CanSetGroup() {
-            return (Selection.gameObjects.Length > 0 && PrefabStageUtility.GetCurrentPrefabStage()==null);
+            return (Selection.gameObjects.Length > 0 && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage()==null);
         }
 
         [MenuItem("GameObject/Set Color Group", false, 10)]
