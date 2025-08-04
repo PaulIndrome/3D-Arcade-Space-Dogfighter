@@ -68,6 +68,9 @@ UserSettings/
 dev-impressions
 
 *.psd
+devGifs/
+Blend/
+Arcade-Space-Dogfighter.zip
 
 # SpaceGraphicsToolkit
 [Aa]ssets/Plugins/CW/
